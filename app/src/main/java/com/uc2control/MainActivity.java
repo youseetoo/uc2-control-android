@@ -43,9 +43,13 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case 1:
                         tab.setText("Led");
-                        break;
+                    break;
+                    case 2:
+                        tab.setText("BT");
+                    break;
                     default:
                         tab.setText("Wifi");
+                    break;
                 }
             }
         });

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.uc2control.BlueToothFragment;
 import com.uc2control.LedFragment;
 import com.uc2control.WifiSettingsFragment;
 
@@ -30,6 +31,8 @@ public class MainTabPageAdapter extends FragmentStateAdapter {
         {
             case 1:
                 return new LedFragment();
+            case 2:
+                return new BlueToothFragment();
             default:
                 return new WifiSettingsFragment();
         }
@@ -37,6 +40,6 @@ public class MainTabPageAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

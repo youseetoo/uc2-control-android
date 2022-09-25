@@ -1,5 +1,6 @@
 package com.api;
 
+import com.api.response.BtScanItem;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.WifiConnectRequest;
@@ -31,5 +32,8 @@ public interface ApiService {
 
     @GET("/resetnv")
     Call<Void> resetNvFlash();
+
+    @GET("/bt_scan")
+    Call<BtScanItem[]> scanForBtDevices();
 
 }
