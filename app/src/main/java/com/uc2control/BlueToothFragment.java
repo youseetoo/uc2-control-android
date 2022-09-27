@@ -13,9 +13,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
+import com.api.response.BtScanItem;
 import com.uc2control.adapter.BtDevicesAdapter;
 import com.uc2control.databinding.FragmentBlueToothBinding;
+import com.uc2control.databinding.SimpleBtItemBinding;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -45,6 +48,16 @@ public class BlueToothFragment extends Fragment {
                     btDevicesAdapter = new BtDevicesAdapter(getContext(),mViewModel.getBlueToothModel().getBtScanItems());
                     blueToothBinding.listViewBtdevices.setAdapter(btDevicesAdapter);
                 }
+            }
+        });
+
+        blueToothBinding.listViewBtdevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (view.getTag() == null)
+                    return;
+                SimpleBtItemBinding scanItem = (SimpleBtItemBinding) view.getTag();
+                mViewModel.getBlueToothModel().setMacAdress(scanItem.getBtItem().mac);
             }
         });
         blueToothBinding.listViewBtdevices.setAdapter(btDevicesAdapter);

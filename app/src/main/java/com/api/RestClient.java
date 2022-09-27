@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.api.response.BtScanItem;
 import com.api.response.LedArrRequest;
+import com.api.response.MacRequest;
 import com.api.response.WifiConnectRequest;
 
 public class RestClient {
@@ -47,5 +48,10 @@ public class RestClient {
     public void scanForBtDevices(ApiServiceCallback<BtScanItem[]> callback)
     {
         apiService.scanForBtDevices().enqueue(new ApiServiceCallbackAdapter<>(callback));
+    }
+
+    public void connectToBtDevice(MacRequest mac, ApiServiceCallback<Void> callback)
+    {
+        apiService.connectToBtDevice(mac).enqueue(new ApiServiceCallbackAdapter<>(callback));
     }
 }

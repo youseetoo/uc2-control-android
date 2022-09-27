@@ -27,6 +27,27 @@
                 android:id="@+id/listView_btdevices"
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BT Device Mac Adress" />
+
+            <EditText
+                android:id="@+id/editText_mac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="@={btmodel.macAdress}" />
+
+            <Button
+                android:id="@+id/button_connectToBtDevice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connect to BT Device"
+                android:onClick="@{()->btmodel.connectToBTDevice()}"/>
         </LinearLayout>
 
     </ScrollView>

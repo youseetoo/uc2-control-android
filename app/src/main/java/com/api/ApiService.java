@@ -3,10 +3,13 @@ package com.api;
 import com.api.response.BtScanItem;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
+import com.api.response.MacRequest;
 import com.api.response.WifiConnectRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
@@ -35,5 +38,8 @@ public interface ApiService {
 
     @GET("/bt_scan")
     Call<BtScanItem[]> scanForBtDevices();
+    
+    @POST("/bt_connect")
+    Call<Void>connectToBtDevice(@Body MacRequest mac);
 
 }
