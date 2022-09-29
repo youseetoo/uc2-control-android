@@ -55,7 +55,10 @@ public class BlueToothModel extends BaseObservable
     public void setBtScanItems(BtScanItem[] btScanItems) {
         if (btScanItems == this.btScanItems)
             return;
-        this.btScanItems = btScanItems;
+        if(btScanItems == null)
+            this.btScanItems =new BtScanItem[0];
+        else
+            this.btScanItems = btScanItems;
         notifyPropertyChanged(BR.btScanItems);
     }
 
