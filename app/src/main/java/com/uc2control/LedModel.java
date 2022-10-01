@@ -9,10 +9,12 @@ import com.api.RestController;
 import com.api.enums.LedModes;
 import com.api.response.LedArrRequest;
 import com.api.response.LedColorItem;
+import com.api.response.LedSetRequest;
 
 public class LedModel extends BaseObservable {
     private RestController restController;
-    private int ledcount = 63;
+    private String ledcount = "64";
+    private String ledPin = "0";
     private boolean leds_turned_on = false;
     private int red = 255;
     private int green = 255;
@@ -23,12 +25,14 @@ public class LedModel extends BaseObservable {
         this.restController = restController;
     }
     @Bindable
-    public int getLedcount() {
+    public String getLedcount() {
         return ledcount;
     }
 
-    public void setLedcount(int ledcount) {
+    public void setLedcount(String ledcount) {
         this.ledcount = ledcount;
+        if (this.ledcount == ledcount)
+            return;
         notifyPropertyChanged(BR.ledcount);
     }
 
@@ -48,7 +52,6 @@ public class LedModel extends BaseObservable {
     private void sendLedEnableRequest()
     {
         LedArrRequest request =new LedArrRequest();
-        request.NLeds = ledcount;
         request.LEDArrMode = LedModes.full.ordinal();
         request.led_array =new LedColorItem[1];
         request.led_array[0] = new LedColorItem();
@@ -62,7 +65,6 @@ public class LedModel extends BaseObservable {
     private void updateColors()
     {
         LedArrRequest request =new LedArrRequest();
-        request.NLeds = ledcount;
         request.LEDArrMode = LedModes.full.ordinal();
         request.led_array =new LedColorItem[1];
         request.led_array[0] = new LedColorItem();
@@ -121,4 +123,30 @@ public class LedModel extends BaseObservable {
     public int getGreen() {
         return green;
     }
+
+    public void setLedPin(String ledPin) {
+        if (this.ledPin == ledPin)
+            return;
+        this.ledPin = ledPin;
+    }
+
+    @Bindable
+    public String getLedPin() {
+        return ledPin;
+    }
+
+    public void updatePins()
+    {
+        LedSetRequest r = new LedSetRequest();
+        r.ledArrNum = Integer.parseInt(ledcount);
+        r.ledArrPin = Integer.parseInt(ledPin);
+        restController.getRestClient().setLedConfig(r,setLedConfigCallback);
+    }
+
+    private ApiServiceCallback<String> setLedConfigCallback = new ApiServiceCallback<String>() {
+        @Override
+        public void onResponse(String response) {
+
+        }
+    };
 }

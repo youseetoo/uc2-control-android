@@ -3,6 +3,7 @@ package com.api;
 import com.api.response.BtScanItem;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
+import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
 import com.api.response.WifiConnectRequest;
 
@@ -25,6 +26,9 @@ public interface ApiService {
 
     @POST("/ledarr_act")
     Call<String> ledAct(@Body LedArrRequest request);
+
+    @POST("/ledarr_set")
+    Call<String> ledSet(@Body LedSetRequest request);
 
     @GET("/wifi/scan")
     Call<String[]> getSsids();

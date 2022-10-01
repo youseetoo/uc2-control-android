@@ -27,14 +27,38 @@
                     android:layout_height="wrap_content"
                     android:text="Led Count:" />
 
-                <TextView
+                <EditText
                     android:id="@+id/textView_ledcount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:text="" />
-
+                    android:text="@={led.ledcount}" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Led Pin:" />
+
+                <EditText
+                    android:id="@+id/textView_ledpin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:text="@={led.ledPin}" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_setPins"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->led.updatePins()}"
+                android:text="set config" />
 
             <CheckBox
                 android:id="@+id/checkBox_enableLed"

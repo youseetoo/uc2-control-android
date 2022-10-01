@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("led")
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
-public class LedArrRequest
-{
-    public int LEDArrMode =0;
-    public LedColorItem led_array[];
+public class LedSetRequest {
+    public int ledArrPin;
+    public int ledArrNum;
 }
