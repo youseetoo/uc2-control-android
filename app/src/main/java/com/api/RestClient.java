@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.api.response.BtScanItem;
 import com.api.response.LedArrRequest;
+import com.api.response.LedArrResponse;
 import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
 import com.api.response.WifiConnectRequest;
@@ -49,6 +50,11 @@ public class RestClient {
     public void setLedConfig(LedSetRequest r, ApiServiceCallback<String> c)
     {
         apiService.ledSet(r).enqueue(new ApiServiceCallbackAdapter<>(c));
+    }
+
+    public void getLedConfig(ApiServiceCallback<LedArrResponse> c)
+    {
+        apiService.ledGet().enqueue(new ApiServiceCallbackAdapter<>(c));
     }
 
     public void scanForBtDevices(ApiServiceCallback<BtScanItem[]> callback)

@@ -7,8 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LedArrResponse
 {
-    @JsonProperty("Nled")
-    public int Nleds;
+    @JsonProperty("ledArrNum")
+    public int ledArrNum;
+
+    @JsonProperty("led_ison")
+    public boolean is_on;
+
+    @JsonProperty("ledArrPin")
+    public int pin;
 
     @JsonProperty("LEDArrMode")
     public LedModes[] ledModes;

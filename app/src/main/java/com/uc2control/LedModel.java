@@ -8,6 +8,7 @@ import com.api.ApiServiceCallbackAdapter;
 import com.api.RestController;
 import com.api.enums.LedModes;
 import com.api.response.LedArrRequest;
+import com.api.response.LedArrResponse;
 import com.api.response.LedColorItem;
 import com.api.response.LedSetRequest;
 
@@ -37,6 +38,7 @@ public class LedModel extends BaseObservable {
     }
 
     public void setLedsOn(boolean leds_turned_on) {
+
         if(this.leds_turned_on == leds_turned_on)
             return;
         this.leds_turned_on = leds_turned_on;
@@ -147,6 +149,23 @@ public class LedModel extends BaseObservable {
         @Override
         public void onResponse(String response) {
 
+        }
+    };
+
+    public void getLedSettings()
+    {
+        restController.getRestClient().getLedConfig(getLedSettingsCallback);
+    }
+
+    private ApiServiceCallback<LedArrResponse> getLedSettingsCallback = new ApiServiceCallback<LedArrResponse>() {
+        @Override
+        public void onResponse(LedArrResponse response) {
+            ledcount = ""+response.ledArrNum;
+            leds_turned_on = response.is_on;
+            ledPin = ""+response.pin;
+            notifyPropertyChanged(BR.ledsOn);
+            notifyPropertyChanged(BR.ledcount);
+            notifyPropertyChanged(BR.ledPin);
         }
     };
 }
