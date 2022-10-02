@@ -12,22 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.api.RestClient;
 import com.uc2control.databinding.FragmentLedBinding;
-
-import java.util.Arrays;
+import com.uc2control.viewmodels.LedModelView;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LedFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
 public class LedFragment extends Fragment {
 

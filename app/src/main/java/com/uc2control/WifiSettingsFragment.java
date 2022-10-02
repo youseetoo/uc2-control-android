@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
-import androidx.databinding.adapters.TextViewBindingAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.uc2control.databinding.FragmentWifiSettingsBinding;
+import com.uc2control.viewmodels.WifiSettingsModelView;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

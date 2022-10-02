@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         tab.setText("BT");
                     break;
+                    case 3:
+                        tab.setText("Motor");
+                    break;
                     default:
                         tab.setText("Wifi");
                     break;

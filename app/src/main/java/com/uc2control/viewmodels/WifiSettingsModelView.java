@@ -1,12 +1,9 @@
-package com.uc2control;
+package com.uc2control.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
-import com.api.ApiServiceCallback;
-import com.api.RestClient;
 import com.api.RestController;
-
-import java.util.Observable;
+import com.uc2control.models.WifiSettingsModel;
 
 import javax.inject.Inject;
 

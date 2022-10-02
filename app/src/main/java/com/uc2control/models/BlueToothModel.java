@@ -1,4 +1,4 @@
-package com.uc2control;
+package com.uc2control.models;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
@@ -7,6 +7,7 @@ import com.api.ApiServiceCallback;
 import com.api.RestController;
 import com.api.response.BtScanItem;
 import com.api.response.MacRequest;
+import com.uc2control.BR;
 
 public class BlueToothModel extends BaseObservable
 {

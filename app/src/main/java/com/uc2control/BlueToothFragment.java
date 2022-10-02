@@ -15,10 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.api.response.BtScanItem;
 import com.uc2control.adapter.BtDevicesAdapter;
 import com.uc2control.databinding.FragmentBlueToothBinding;
 import com.uc2control.databinding.SimpleBtItemBinding;
+import com.uc2control.viewmodels.BlueToothViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

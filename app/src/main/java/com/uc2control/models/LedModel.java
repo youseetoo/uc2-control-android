@@ -1,4 +1,4 @@
-package com.uc2control;
+package com.uc2control.models;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
@@ -11,6 +11,7 @@ import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.LedColorItem;
 import com.api.response.LedSetRequest;
+import com.uc2control.BR;
 
 public class LedModel extends BaseObservable {
     private RestController restController;
@@ -154,6 +155,8 @@ public class LedModel extends BaseObservable {
 
     public void getLedSettings()
     {
+        if (restController.getRestClient() == null)
+            return;
         restController.getRestClient().getLedConfig(getLedSettingsCallback);
     }
 

@@ -1,4 +1,4 @@
-package com.uc2control;
+package com.uc2control.models;
 
 import android.util.Log;
 
@@ -6,9 +6,9 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.api.ApiServiceCallback;
-import com.api.RestClient;
 import com.api.RestController;
 import com.api.response.WifiConnectRequest;
+import com.uc2control.BR;
 
 import java.util.Arrays;
 

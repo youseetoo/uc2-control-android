@@ -1,8 +1,9 @@
-package com.uc2control;
+package com.uc2control.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
 import com.api.RestController;
+import com.uc2control.models.LedModel;
 
 import javax.inject.Inject;
 

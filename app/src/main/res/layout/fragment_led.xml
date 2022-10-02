@@ -4,7 +4,7 @@
     <data>
         <variable
             name="led"
-            type="com.uc2control.LedModel" />
+            type="com.uc2control.models.LedModel" />
     </data>
 
     <ScrollView

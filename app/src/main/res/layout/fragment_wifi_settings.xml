@@ -4,7 +4,7 @@
     <data>
         <variable
             name="wifimodel"
-            type="com.uc2control.WifiSettingsModel" />
+            type="com.uc2control.models.WifiSettingsModel" />
     </data>
 
     <ScrollView
