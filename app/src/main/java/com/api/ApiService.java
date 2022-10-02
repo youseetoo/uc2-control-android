@@ -5,6 +5,7 @@ import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
+import com.api.response.StepperRequest;
 import com.api.response.WifiConnectRequest;
 
 import retrofit2.Call;
@@ -45,5 +46,8 @@ public interface ApiService {
     
     @POST("/bt_connect")
     Call<Void>connectToBtDevice(@Body MacRequest mac);
+
+    @POST("/motor_set")
+    Call<Void>setMotorPins(@Body StepperRequest stepperRequest);
 
 }

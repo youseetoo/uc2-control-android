@@ -3,6 +3,7 @@ package com.uc2control.models;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
+import com.api.response.StepperItem;
 import com.uc2control.BR;
 
 public class Stepper extends BaseObservable {
@@ -80,5 +81,18 @@ public class Stepper extends BaseObservable {
     @Bindable
     public boolean isStep_inverted() {
         return step_inverted;
+    }
+
+    public StepperItem getStepper(int id)
+    {
+        StepperItem item =new StepperItem();
+        item.dir = Integer.parseInt(dir_pin);
+        item.step = Integer.parseInt(step_pin);
+        item.enable = Integer.parseInt(power_pin);
+        item.dir_inverted = dir_inverted;
+        item.step_inverted = step_inverted;
+        item.enable_inverted = power_inverted;
+        item.stepperid = id;
+        return item;
     }
 }

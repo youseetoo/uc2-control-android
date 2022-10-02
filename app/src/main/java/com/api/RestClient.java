@@ -7,6 +7,7 @@ import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
+import com.api.response.StepperRequest;
 import com.api.response.WifiConnectRequest;
 
 public class RestClient {
@@ -65,5 +66,10 @@ public class RestClient {
     public void connectToBtDevice(MacRequest mac, ApiServiceCallback<Void> callback)
     {
         apiService.connectToBtDevice(mac).enqueue(new ApiServiceCallbackAdapter<>(callback));
+    }
+
+    public void setMotorPins(StepperRequest stepperRequest, ApiServiceCallback<Void> c)
+    {
+        apiService.setMotorPins(stepperRequest).enqueue(new ApiServiceCallbackAdapter<>(c));
     }
 }
