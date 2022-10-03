@@ -1,22 +1,20 @@
 package com.api;
 
-import com.api.response.BtScanItem;
+import com.api.response.MotorGetResponse;
+import com.api.response.items.BtScanItem;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
-import com.api.response.StepperRequest;
+import com.api.response.MotorSetRequest;
 import com.api.response.WifiConnectRequest;
+import com.api.response.items.MotorGetItem;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface ApiService {
     @GET("/")
@@ -48,6 +46,9 @@ public interface ApiService {
     Call<Void>connectToBtDevice(@Body MacRequest mac);
 
     @POST("/motor_set")
-    Call<Void>setMotorPins(@Body StepperRequest stepperRequest);
+    Call<Void>setMotorPins(@Body MotorSetRequest motorSetRequest);
+
+    @GET("motor_get")
+    Call<MotorGetResponse>getMotorData();
 
 }

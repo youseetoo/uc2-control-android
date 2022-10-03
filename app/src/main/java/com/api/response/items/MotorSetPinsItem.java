@@ -1,6 +1,6 @@
-package com.api.response;
+package com.api.response.items;
 
-public class StepperItem {
+public class MotorSetPinsItem {
     public int stepperid;
     public int dir;
     public int step;

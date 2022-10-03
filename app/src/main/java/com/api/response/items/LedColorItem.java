@@ -1,4 +1,4 @@
-package com.api.response;
+package com.api.response.items;
 
 public class LedColorItem {
 

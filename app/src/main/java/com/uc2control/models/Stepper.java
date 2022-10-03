@@ -3,7 +3,8 @@ package com.uc2control.models;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-import com.api.response.StepperItem;
+import com.api.response.items.MotorGetItem;
+import com.api.response.items.MotorSetPinsItem;
 import com.uc2control.BR;
 
 public class Stepper extends BaseObservable {
@@ -83,9 +84,9 @@ public class Stepper extends BaseObservable {
         return step_inverted;
     }
 
-    public StepperItem getStepper(int id)
+    public MotorSetPinsItem getStepper(int id)
     {
-        StepperItem item =new StepperItem();
+        MotorSetPinsItem item =new MotorSetPinsItem();
         item.dir = Integer.parseInt(dir_pin);
         item.step = Integer.parseInt(step_pin);
         item.enable = Integer.parseInt(power_pin);
@@ -94,5 +95,16 @@ public class Stepper extends BaseObservable {
         item.enable_inverted = power_inverted;
         item.stepperid = id;
         return item;
+    }
+
+    public void setMotorGetItem(MotorGetItem m)
+    {
+        step_pin = ""+m.step;
+        dir_pin = ""+m.dir;
+        power_pin = ""+m.enable;
+        step_inverted = m.step_inverted;
+        dir_inverted = m.dir_inverted;
+        power_inverted = m.enable_inverted;
+        notifyChange();
     }
 }

@@ -4,7 +4,7 @@
 <data>
     <variable
         name="btItem"
-        type="com.api.response.BtScanItem" />
+        type="com.api.response.items.BtScanItem" />
 </data>
 
 <LinearLayout

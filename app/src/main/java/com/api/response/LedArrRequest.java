@@ -1,5 +1,6 @@
 package com.api.response;
 
+import com.api.response.items.LedColorItem;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 

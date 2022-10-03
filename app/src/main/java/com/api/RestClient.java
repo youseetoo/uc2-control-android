@@ -2,12 +2,13 @@ package com.api;
 
 import android.util.Log;
 
-import com.api.response.BtScanItem;
+import com.api.response.MotorGetResponse;
+import com.api.response.items.BtScanItem;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
-import com.api.response.StepperRequest;
+import com.api.response.MotorSetRequest;
 import com.api.response.WifiConnectRequest;
 
 public class RestClient {
@@ -68,8 +69,13 @@ public class RestClient {
         apiService.connectToBtDevice(mac).enqueue(new ApiServiceCallbackAdapter<>(callback));
     }
 
-    public void setMotorPins(StepperRequest stepperRequest, ApiServiceCallback<Void> c)
+    public void setMotorPins(MotorSetRequest motorSetRequest, ApiServiceCallback<Void> c)
     {
-        apiService.setMotorPins(stepperRequest).enqueue(new ApiServiceCallbackAdapter<>(c));
+        apiService.setMotorPins(motorSetRequest).enqueue(new ApiServiceCallbackAdapter<>(c));
+    }
+
+    public void getMotorData(ApiServiceCallback<MotorGetResponse> c)
+    {
+        apiService.getMotorData().enqueue(new ApiServiceCallbackAdapter<>(c));
     }
 }

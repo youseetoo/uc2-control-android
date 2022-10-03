@@ -4,12 +4,11 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.api.ApiServiceCallback;
-import com.api.ApiServiceCallbackAdapter;
 import com.api.RestController;
 import com.api.enums.LedModes;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
-import com.api.response.LedColorItem;
+import com.api.response.items.LedColorItem;
 import com.api.response.LedSetRequest;
 import com.uc2control.BR;
 

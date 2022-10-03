@@ -5,7 +5,7 @@ import androidx.databinding.Bindable;
 
 import com.api.ApiServiceCallback;
 import com.api.RestController;
-import com.api.response.BtScanItem;
+import com.api.response.items.BtScanItem;
 import com.api.response.MacRequest;
 import com.uc2control.BR;
 

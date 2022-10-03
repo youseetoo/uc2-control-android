@@ -45,4 +45,10 @@ public class MotorSettingsFragment extends Fragment {
         settingsBinding.stepperA.setStepper(viewModel.getMotorModel().getStepperA());
         return settingsBinding.getRoot();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.getMotorModel().getMotorData();
+    }
 }
