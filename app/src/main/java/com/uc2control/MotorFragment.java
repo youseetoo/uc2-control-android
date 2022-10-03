@@ -24,11 +24,12 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class MotorFragment extends Fragment {
 
-    private MotorViewModel mViewModel;
+    MotorViewModel mViewModel;
     private ViewPager2 pager;
     private MotorTabPageAdapter pageAdapter;
     private TabLayout tabLayout;
     private TabLayoutMediator tabLayoutMediator;
+
 
     public static MotorFragment newInstance() {
         return new MotorFragment();

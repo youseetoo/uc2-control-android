@@ -7,67 +7,36 @@
             name="motor"
             type="com.uc2control.models.MotorModel" />
     </data>
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainlayoutmotorstepper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MotorFragment">
+        android:layout_height="match_parent">
 
-        <ScrollView
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layoutmotorstepper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pagermotorstepper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_layoutmotorstepper" />
+
+        <Button
+            android:id="@+id/button_applysteppersettings"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Stepper X" />
-
-                <include layout="@layout/steppersettings_view"
-                    android:id="@+id/stepperX"/>
-
-                <View style="@style/Divider"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Stepper Y" />
-
-                <include layout="@layout/steppersettings_view"
-                    android:id="@+id/stepperY"/>
-
-                <View style="@style/Divider"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Stepper Z" />
-
-                <include layout="@layout/steppersettings_view"
-                    android:id="@+id/stepperZ"/>
-
-                <View style="@style/Divider"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Stepper A" />
-
-                <include layout="@layout/steppersettings_view"
-                    android:id="@+id/stepperA"/>
-
-                <Button
-                    android:id="@+id/button_applysteppersettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Apply Stepper Settings"
-                    android:onClick="@{()->motor.applyStepperSettings()}"/>
-
-            </LinearLayout>
-        </ScrollView>
-
-    </FrameLayout>
+            android:layout_height="wrap_content"
+            android:onClick="@{()->motor.applyStepperSettings()}"
+            android:text="Apply Stepper Settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pagermotorstepper"
+            app:layout_constraintTop_toBottomOf="@id/pagermotorstepper" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
