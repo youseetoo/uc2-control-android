@@ -10,13 +10,21 @@ import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
 import com.api.response.MotorSetRequest;
 import com.api.response.WifiConnectRequest;
+import com.api.ws.Uc2WebSocket;
 
 public class RestClient {
 
     ApiService apiService;
+    String url;
     public RestClient(String url)
     {
+        this.url = url;
         apiService = ApiServiceGenerator.createService(ApiService.class,url);
+    }
+
+    public Uc2WebSocket createWebSocket()
+    {
+        return new Uc2WebSocket(ApiServiceGenerator.getSharedClient(),url+":81");
     }
 
     public String[] getFeatures() {

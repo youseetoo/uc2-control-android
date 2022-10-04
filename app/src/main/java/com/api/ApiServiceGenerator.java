@@ -67,4 +67,9 @@ public class ApiServiceGenerator {
             (Converter<ResponseBody, RestError>) converterFactory.responseBodyConverter(
                     RestError.class, new Annotation[0], null);
 
+    public static OkHttpClient getSharedClient()
+    {
+        return sharedClient;
+    }
+
 }

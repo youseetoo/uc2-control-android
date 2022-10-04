@@ -1,5 +1,7 @@
 package com.uc2control.models;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
@@ -10,7 +12,18 @@ import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.items.LedColorItem;
 import com.api.response.LedSetRequest;
+import com.api.ws.Uc2WebSocket;
+import com.api.ws.Uc2WebSocketListner;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uc2control.BR;
+
+import java.io.Closeable;
+import java.io.IOException;
+
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okio.ByteString;
 
 public class LedModel extends BaseObservable {
     private RestController restController;
@@ -20,10 +33,13 @@ public class LedModel extends BaseObservable {
     private int red = 255;
     private int green = 255;
     private int blue = 255;
+    private Uc2WebSocket webSocket;
+    ObjectMapper mapper = new ObjectMapper();
 
     public LedModel(RestController restController)
     {
         this.restController = restController;
+        webSocket = restController.getRestClient().createWebSocket();
     }
     @Bindable
     public String getLedcount() {
@@ -74,7 +90,12 @@ public class LedModel extends BaseObservable {
         request.led_array[0].red = red;
         request.led_array[0].green = green;
         request.led_array[0].blue = blue;
-        restController.getRestClient().setLedArr(request,setLedCallback);
+        try {
+            webSocket.getWebSocket().send(mapper.writeValueAsString(request));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        //restController.getRestClient().setLedArr(request,setLedCallback);
     }
 
     private ApiServiceCallback<String> setLedCallback = new ApiServiceCallback<String>() {
@@ -168,6 +189,53 @@ public class LedModel extends BaseObservable {
             notifyPropertyChanged(BR.ledsOn);
             notifyPropertyChanged(BR.ledcount);
             notifyPropertyChanged(BR.ledPin);
+        }
+    };
+
+    public void pauseWebSocket()
+    {
+        try {
+            webSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void resumeWebSocket()
+    {
+        webSocket.createNewWebSocket(webSocketListner);
+    }
+
+    private final Uc2WebSocketListner webSocketListner = new Uc2WebSocketListner()
+    {
+        @Override
+        public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
+            super.onClosed(webSocket, code, reason);
+        }
+
+        @Override
+        public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
+            super.onClosing(webSocket, code, reason);
+        }
+
+        @Override
+        public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
+            super.onFailure(webSocket, t, response);
+        }
+
+        @Override
+        public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
+            super.onMessage(webSocket, text);
+        }
+
+        @Override
+        public void onMessage(@NonNull WebSocket webSocket, @NonNull ByteString bytes) {
+            super.onMessage(webSocket, bytes);
+        }
+
+        @Override
+        public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
+            super.onOpen(webSocket, response);
         }
     };
 }

@@ -54,6 +54,13 @@ public class LedFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ledModelView.getLedModel().getLedSettings();
+        ledModelView.getLedModel().resumeWebSocket();
         Log.d(TAG,"onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ledModelView.getLedModel().pauseWebSocket();
     }
 }
