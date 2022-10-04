@@ -17,10 +17,10 @@ public class MotorModel {
     public MotorModel(RestController restController)
     {
         this.restController = restController;
-        stepperX = new Stepper();
-        stepperY = new Stepper();
-        stepperZ = new Stepper();
-        stepperA = new Stepper();
+        stepperX = new Stepper(1,restController);
+        stepperY = new Stepper(2,restController);
+        stepperZ = new Stepper(3,restController);
+        stepperA = new Stepper(0,restController);
     }
 
     public Stepper getStepperA() {

@@ -3,6 +3,10 @@ package com.uc2control.models;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
+import com.api.ApiServiceCallback;
+import com.api.RestController;
+import com.api.response.MotorActRequest;
+import com.api.response.items.MotorActItem;
 import com.api.response.items.MotorGetItem;
 import com.api.response.items.MotorSetPinsItem;
 import com.uc2control.BR;
@@ -15,6 +19,19 @@ public class Stepper extends BaseObservable {
     boolean step_inverted = false;
     boolean dir_inverted = false;
     boolean power_inverted = false;
+    private int id;
+
+
+    String position = "0";
+
+    private RestController restController;
+
+    public Stepper(int id, RestController restController)
+    {
+        this.id = id;
+        this.restController = restController;
+    }
+
     @Bindable
     public String getStep_pin() {
         return step_pin;
@@ -106,5 +123,70 @@ public class Stepper extends BaseObservable {
         dir_inverted = m.dir_inverted;
         power_inverted = m.enable_inverted;
         notifyChange();
+    }
+
+    public void setPosition(String position) {
+        if (position == this.position)
+            return;
+        this.position = position;
+    }
+
+    @Bindable
+    public String getPosition() {
+        return position;
+    }
+
+    public void driverForward()
+    {
+        MotorActRequest request = new MotorActRequest();
+        MotorActItem item = new MotorActItem();
+        request.motorActItem = new MotorActItem[1];
+        request.motorActItem[0] = item;
+        item.stepperid = id;
+        item.speed = 200L;
+        item.maxspeed = 20000L;
+        item.isforever = 1;
+        restController.getRestClient().setMotorData(request, new ApiServiceCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+
+            }
+        });
+    }
+
+    public void stopDrive()
+    {
+        MotorActRequest request = new MotorActRequest();
+        MotorActItem item = new MotorActItem();
+        request.motorActItem = new MotorActItem[1];
+        request.motorActItem[0] = item;
+        item.stepperid = id;
+        item.speed = 0L;
+        item.maxspeed = 20000L;
+        item.isforever = 0;
+        restController.getRestClient().setMotorData(request, new ApiServiceCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+
+            }
+        });
+    }
+
+    public void driveBackward()
+    {
+        MotorActRequest request = new MotorActRequest();
+        MotorActItem item = new MotorActItem();
+        request.motorActItem = new MotorActItem[1];
+        request.motorActItem[0] = item;
+        item.stepperid = id;
+        item.speed = -200L;
+        item.maxspeed = 20000L;
+        item.isforever = 1;
+        restController.getRestClient().setMotorData(request, new ApiServiceCallback<Void>() {
+            @Override
+            public void onResponse(Void response) {
+
+            }
+        });
     }
 }

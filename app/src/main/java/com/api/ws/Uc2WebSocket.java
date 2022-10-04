@@ -32,9 +32,12 @@ public class Uc2WebSocket implements Closeable  {
     public void close() throws IOException {
         isOpen = false;
         final int code = 1000;
-        listener.onClosing(webSocket, code, "");
-        webSocket.close(code, null);
-        listener.onClosed(webSocket, code, "");
+        if (listener != null && webSocket != null)
+            listener.onClosing(webSocket, code, "");
+        if (webSocket != null)
+            webSocket.close(code, null);
+        if (listener != null && webSocket != null)
+            listener.onClosed(webSocket, code, "");
     }
 
     public WebSocket getWebSocket() {

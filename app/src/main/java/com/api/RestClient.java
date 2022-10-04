@@ -2,6 +2,7 @@ package com.api;
 
 import android.util.Log;
 
+import com.api.response.MotorActRequest;
 import com.api.response.MotorGetResponse;
 import com.api.response.items.BtScanItem;
 import com.api.response.LedArrRequest;
@@ -85,5 +86,10 @@ public class RestClient {
     public void getMotorData(ApiServiceCallback<MotorGetResponse> c)
     {
         apiService.getMotorData().enqueue(new ApiServiceCallbackAdapter<>(c));
+    }
+
+    public void setMotorData(MotorActRequest request,ApiServiceCallback<Void> c)
+    {
+        apiService.setMotorData(request).enqueue(new ApiServiceCallbackAdapter<>(c));
     }
 }

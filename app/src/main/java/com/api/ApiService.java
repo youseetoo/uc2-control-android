@@ -1,5 +1,6 @@
 package com.api;
 
+import com.api.response.MotorActRequest;
 import com.api.response.MotorGetResponse;
 import com.api.response.items.BtScanItem;
 import com.api.response.LedArrRequest;
@@ -50,5 +51,8 @@ public interface ApiService {
 
     @GET("motor_get")
     Call<MotorGetResponse>getMotorData();
+
+    @POST("motor_act")
+    Call<Void>setMotorData(@Body MotorActRequest request);
 
 }

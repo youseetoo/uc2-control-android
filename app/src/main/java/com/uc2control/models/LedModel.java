@@ -39,7 +39,8 @@ public class LedModel extends BaseObservable {
     public LedModel(RestController restController)
     {
         this.restController = restController;
-        webSocket = restController.getRestClient().createWebSocket();
+        if (restController.getRestClient() != null)
+            webSocket = restController.getRestClient().createWebSocket();
     }
     @Bindable
     public String getLedcount() {
