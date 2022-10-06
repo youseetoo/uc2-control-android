@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="stepper"
@@ -15,6 +16,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
         <TextView
@@ -28,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{stepper.position}"/>
+            android:text="@{stepper.position}" />
 
         <TextView
             android:id="@+id/textView5"
@@ -42,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{stepper.speedString}"/>
+            android:text="@{stepper.speedString}" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,7 +82,15 @@
         android:layout_height="40dp"
         android:max="@{stepper.speedRangesSize}"
         android:progress="@={stepper.speedPos}"
+        android:onStopTrackingTouch="@{stepper::onStopTrackingTouch}"
         />
+
+    <CheckBox
+        android:id="@+id/checkBox_stoponseekbarrelease"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop Motor when the Seekbar is no longer pressed"
+        android:checked="@={stepper.stopMotorOnSeekbarRelease}"/>
 </LinearLayout>
 
 </layout>

@@ -25,6 +25,7 @@ public class Stepper extends BaseObservable {
     private int id;
     private final int speedRanges[] = {-4000, -2000,-1000,-500,-200,-100,-50,-20,-10,-5,-4,-3,-2,-1,0,1,2,3,4,5,10,20,50,100,200,500,1000,2000, 4000};
     private int speedPos = getDefaultPosition();
+    private boolean stopMotorOnSeekbarRelease = false;
 
 
     String position = "0";
@@ -106,6 +107,17 @@ public class Stepper extends BaseObservable {
     @Bindable
     public boolean isStep_inverted() {
         return step_inverted;
+    }
+
+    public void setStopMotorOnSeekbarRelease(boolean stopMotorOnSeekbarRelease) {
+        if (stopMotorOnSeekbarRelease == this.stopMotorOnSeekbarRelease)
+            return;
+        this.stopMotorOnSeekbarRelease = stopMotorOnSeekbarRelease;
+    }
+
+    @Bindable
+    public boolean getStopMotorOnSeekbarRelease() {
+        return stopMotorOnSeekbarRelease;
     }
 
     public MotorSetPinsItem getStepper(int id)
@@ -216,4 +228,10 @@ public class Stepper extends BaseObservable {
     {
         return "" + speedRanges[speedPos];
     }
+
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        if (stopMotorOnSeekbarRelease)
+            setSpeedPos(getDefaultPosition());
+    }
+
 }
