@@ -16,12 +16,28 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button_scanbt"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Scan for BT Devices"
-                android:onClick="@{()->btmodel.startScanForBTDevices()}"/>
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_scanbt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="@{()->btmodel.startScanForBTDevices()}"
+                    android:text="Scan for BT Devices" />
+
+                <Button
+                    android:id="@+id/button_getPairedDevices"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="@{()->btmodel.getPairedBTdevices()}"
+                    android:text="Get Paired Devices" />
+            </LinearLayout>
 
             <ListView
                 android:id="@+id/listView_btdevices"
@@ -48,6 +64,13 @@
                 android:layout_height="wrap_content"
                 android:text="Connect to BT Device"
                 android:onClick="@{()->btmodel.connectToBTDevice()}"/>
+
+            <CheckBox
+                android:id="@+id/checkBox_pscontroller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="use ps library"
+                android:checked="@={btmodel.usepslib}"/>
         </LinearLayout>
 
     </ScrollView>

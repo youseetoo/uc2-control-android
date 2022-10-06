@@ -42,6 +42,9 @@ public interface ApiService {
 
     @GET("/bt_scan")
     Call<BtScanItem[]> scanForBtDevices();
+
+    @GET("/bt_paireddevices")
+    Call<BtScanItem[]> getPairedDevices();
     
     @POST("/bt_connect")
     Call<Void>connectToBtDevice(@Body MacRequest mac);

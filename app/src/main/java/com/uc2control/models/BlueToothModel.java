@@ -15,6 +15,7 @@ public class BlueToothModel extends BaseObservable
 
     private BtScanItem[] btScanItems =new BtScanItem[0];
     private String macAdress = "";
+    private boolean usepslib = false;
 
     public BlueToothModel(RestController restController)
     {
@@ -33,12 +34,19 @@ public class BlueToothModel extends BaseObservable
         }
     };
 
+
+    public void getPairedBTdevices()
+    {
+        restController.getRestClient().getPairedBTDevices(scanBtCallback);
+    }
+
     public void connectToBTDevice()
     {
         if (!macAdress.isEmpty())
         {
             MacRequest mac = new MacRequest();
             mac.mac = macAdress;
+            mac.psx = usepslib ? 1 : 0;
             restController.getRestClient().connectToBtDevice(mac, new ApiServiceCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
@@ -73,5 +81,17 @@ public class BlueToothModel extends BaseObservable
     @Bindable
     public String getMacAdress() {
         return macAdress;
+    }
+
+    public void setUsepslib(boolean usepslib) {
+        if (this.usepslib == usepslib)
+            return;
+        this.usepslib = usepslib;
+        notifyPropertyChanged(BR.usepslib);
+    }
+
+    @Bindable
+    public boolean getUsepslib() {
+        return usepslib;
     }
 }

@@ -73,6 +73,11 @@ public class RestClient {
         apiService.scanForBtDevices().enqueue(new ApiServiceCallbackAdapter<>(callback));
     }
 
+    public void getPairedBTDevices(ApiServiceCallback<BtScanItem[]> callback)
+    {
+        apiService.getPairedDevices().enqueue(new ApiServiceCallbackAdapter<>(callback));
+    }
+
     public void connectToBtDevice(MacRequest mac, ApiServiceCallback<Void> callback)
     {
         apiService.connectToBtDevice(mac).enqueue(new ApiServiceCallbackAdapter<>(callback));
