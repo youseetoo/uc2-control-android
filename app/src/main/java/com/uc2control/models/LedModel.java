@@ -33,15 +33,14 @@ public class LedModel extends BaseObservable {
     private int red = 255;
     private int green = 255;
     private int blue = 255;
-    private Uc2WebSocket webSocket;
-    ObjectMapper mapper = new ObjectMapper();
+    private ConnectionModel connectionModel;
 
-    public LedModel(RestController restController)
+    public LedModel(RestController restController, ConnectionModel connectionModel)
     {
         this.restController = restController;
-        if (restController.getRestClient() != null)
-            webSocket = restController.getRestClient().createWebSocket();
+        this.connectionModel = connectionModel;
     }
+
     @Bindable
     public String getLedcount() {
         return ledcount;
@@ -91,11 +90,7 @@ public class LedModel extends BaseObservable {
         request.led_array[0].red = red;
         request.led_array[0].green = green;
         request.led_array[0].blue = blue;
-        try {
-            webSocket.getWebSocket().send(mapper.writeValueAsString(request));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        connectionModel.sendSocketMessage(request);
         //restController.getRestClient().setLedArr(request,setLedCallback);
     }
 
@@ -193,50 +188,7 @@ public class LedModel extends BaseObservable {
         }
     };
 
-    public void pauseWebSocket()
-    {
-        try {
-            webSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void resumeWebSocket()
-    {
-        webSocket.createNewWebSocket(webSocketListner);
-    }
 
-    private final Uc2WebSocketListner webSocketListner = new Uc2WebSocketListner()
-    {
-        @Override
-        public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
-            super.onClosed(webSocket, code, reason);
-        }
 
-        @Override
-        public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
-            super.onClosing(webSocket, code, reason);
-        }
-
-        @Override
-        public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
-            super.onFailure(webSocket, t, response);
-        }
-
-        @Override
-        public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
-            super.onMessage(webSocket, text);
-        }
-
-        @Override
-        public void onMessage(@NonNull WebSocket webSocket, @NonNull ByteString bytes) {
-            super.onMessage(webSocket, bytes);
-        }
-
-        @Override
-        public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
-            super.onOpen(webSocket, response);
-        }
-    };
 }

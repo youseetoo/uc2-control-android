@@ -7,11 +7,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.uc2control.MotorSettingsStepperFragment;
-import com.uc2control.viewmodels.MotorViewModel;
+import com.uc2control.viewmodels.MainViewModel;
 
 public class MotorSettingsStepperAdapter extends FragmentStateAdapter {
+    private MotorSettingsStepperFragment a;
+    private MotorSettingsStepperFragment x;
+    private MotorSettingsStepperFragment y;
+    private MotorSettingsStepperFragment z;
 
-    private MotorViewModel viewModel;
+    private MainViewModel viewModel;
 
     public MotorSettingsStepperAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -25,30 +29,42 @@ public class MotorSettingsStepperAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
     }
 
-    public void setViewModel(MotorViewModel viewModel)
+    private void createFragments()
+    {
+        a = new MotorSettingsStepperFragment();
+        a.setStepper(viewModel.getMotorModel().getStepperA());
+
+        x = new MotorSettingsStepperFragment();
+        x.setStepper(viewModel.getMotorModel().getStepperX());
+
+        y = new MotorSettingsStepperFragment();
+        y.setStepper(viewModel.getMotorModel().getStepperY());
+
+        z = new MotorSettingsStepperFragment();
+        z.setStepper(viewModel.getMotorModel().getStepperZ());
+
+    }
+
+    public void setViewModel(MainViewModel viewModel)
     {
         this.viewModel = viewModel;
+        createFragments();
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        MotorSettingsStepperFragment f = new MotorSettingsStepperFragment();
         switch (position)
         {
             case 1:
-                f.setStepper(viewModel.getMotorModel().getStepperX());
-                break;
+                return x;
             case 2:
-                f.setStepper(viewModel.getMotorModel().getStepperY());
-                break;
+                return y;
             case 3:
-                f.setStepper(viewModel.getMotorModel().getStepperZ());
+                return z;
             default:
-                f.setStepper(viewModel.getMotorModel().getStepperA());
-                break;
+                return a;
         }
-        return f;
     }
 
     @Override

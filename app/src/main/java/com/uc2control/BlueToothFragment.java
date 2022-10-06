@@ -18,25 +18,21 @@ import android.widget.AdapterView;
 import com.uc2control.adapter.BtDevicesAdapter;
 import com.uc2control.databinding.FragmentBlueToothBinding;
 import com.uc2control.databinding.SimpleBtItemBinding;
-import com.uc2control.viewmodels.BlueToothViewModel;
+import com.uc2control.viewmodels.MainViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class BlueToothFragment extends Fragment {
 
-    private BlueToothViewModel mViewModel;
+    private MainViewModel mViewModel;
     private FragmentBlueToothBinding blueToothBinding;
     private BtDevicesAdapter btDevicesAdapter;
-
-    public static BlueToothFragment newInstance() {
-        return new BlueToothFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(BlueToothViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         blueToothBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_blue_tooth, container, false);
         blueToothBinding.setBtmodel(mViewModel.getBlueToothModel());
         btDevicesAdapter = new BtDevicesAdapter(getContext(),mViewModel.getBlueToothModel().getBtScanItems());

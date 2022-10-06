@@ -28,11 +28,6 @@ public class MotorSettingsStepperFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         steppersettingsViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_motor_settings_stepper, container, false);

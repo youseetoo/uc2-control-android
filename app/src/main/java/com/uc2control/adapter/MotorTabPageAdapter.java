@@ -9,11 +9,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.uc2control.MotorControlFragment;
 import com.uc2control.MotorSettingsFragment;
-import com.uc2control.viewmodels.MotorViewModel;
+import com.uc2control.viewmodels.MainViewModel;
 
 public class MotorTabPageAdapter extends FragmentStateAdapter {
 
-    private MotorViewModel viewModel;
+    private MotorSettingsFragment settingsFragment;
+    private MotorControlFragment controlFragment;
 
     public MotorTabPageAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -27,23 +28,18 @@ public class MotorTabPageAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
     }
 
-    public void setViewModel(MotorViewModel viewModel)
-    {
-        this.viewModel = viewModel;
-    }
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         switch (position)
         {
             case 1:
-                MotorSettingsFragment settingsFragment = new MotorSettingsFragment();
-                settingsFragment.setViewModel(viewModel);
+                if (settingsFragment == null)
+                    settingsFragment =new MotorSettingsFragment();
                 return settingsFragment;
             default:
-                MotorControlFragment controlFragment = new MotorControlFragment();
-                controlFragment.setViewModel(viewModel);
+                if (controlFragment == null)
+                    controlFragment = new MotorControlFragment();
                 return controlFragment;
         }
     }

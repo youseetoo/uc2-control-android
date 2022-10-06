@@ -17,30 +17,22 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.uc2control.adapter.MainTabPageAdapter;
 import com.uc2control.adapter.MotorTabPageAdapter;
-import com.uc2control.viewmodels.MotorViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MotorFragment extends Fragment {
 
-    MotorViewModel mViewModel;
+
     private ViewPager2 pager;
     private MotorTabPageAdapter pageAdapter;
     private TabLayout tabLayout;
     private TabLayoutMediator tabLayoutMediator;
 
-
-    public static MotorFragment newInstance() {
-        return new MotorFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(MotorViewModel.class);
         pageAdapter = new MotorTabPageAdapter(this);
-        pageAdapter.setViewModel(mViewModel);
         return inflater.inflate(R.layout.fragment_motor, container, false);
     }
 

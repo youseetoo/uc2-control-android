@@ -13,16 +13,32 @@ import com.uc2control.MotorFragment;
 import com.uc2control.WifiSettingsFragment;
 
 public class MainTabPageAdapter extends FragmentStateAdapter {
+
+    private LedFragment ledFragment;
+    private BlueToothFragment blueToothFragment;
+    private MotorFragment motorFragment;
+    private WifiSettingsFragment wifiSettingsFragment;
     public MainTabPageAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
+        createFragments();
     }
 
     public MainTabPageAdapter(@NonNull Fragment fragment) {
         super(fragment);
+        createFragments();
     }
 
     public MainTabPageAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
+        createFragments();
+    }
+
+    private void createFragments()
+    {
+        ledFragment = new LedFragment();
+        blueToothFragment = new BlueToothFragment();
+        motorFragment = new MotorFragment();
+        wifiSettingsFragment = new WifiSettingsFragment();
     }
 
     @NonNull
@@ -31,13 +47,13 @@ public class MainTabPageAdapter extends FragmentStateAdapter {
         switch (position)
         {
             case 1:
-                return new LedFragment();
+                return ledFragment;
             case 2:
-                return new BlueToothFragment();
+                return blueToothFragment;
             case 3:
-                return new MotorFragment();
+                return motorFragment;
             default:
-                return new WifiSettingsFragment();
+                return wifiSettingsFragment;
         }
     }
 

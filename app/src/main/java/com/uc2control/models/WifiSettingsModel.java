@@ -14,9 +14,6 @@ import java.util.Arrays;
 
 
 public class WifiSettingsModel extends BaseObservable {
-    private String[] supportedEndtpoints;
-    String url = "http://192.168.4.1";
-    String message;
     private WifiConnectRequest wifiConnectRequest = new WifiConnectRequest();
     private String[] wifi_ssids = new String[0];
     private RestController restController;
@@ -24,28 +21,11 @@ public class WifiSettingsModel extends BaseObservable {
     public WifiSettingsModel(RestController restController)
     {
         this.restController = restController;
-        setUrl(url);
     }
-
-    public void onConnectButtonClick()
-    {
-        restController.setUrl(url);
-        restController.getRestClient().getFeaturesAsync(getFeatureCallback);
-        setMessage("Loading Endpoints");
-    }
-
-    private ApiServiceCallback<String[]> getFeatureCallback = new ApiServiceCallback<String[]>() {
-        @Override
-        public void onResponse(String[] response) {
-            supportedEndtpoints = response;
-            setMessage(Arrays.toString(supportedEndtpoints));
-        }
-    };
 
     public void onScanWifiClick()
     {
         restController.getRestClient().getSsids(getWifiScanCallback);
-        setMessage("Loading Ssids");
     }
 
     private ApiServiceCallback<String[]> getWifiScanCallback = new ApiServiceCallback<String[]>() {
@@ -65,27 +45,9 @@ public class WifiSettingsModel extends BaseObservable {
         });
     }
 
-    public void setUrl(String url) {
-        if (url == this.url)
-            return;
-        this.url = url;
-        notifyPropertyChanged(BR.url);
-    }
 
-    @Bindable
-    public String getUrl() {
-        return url;
-    }
 
-    @Bindable
-    public String getMessage() {
-        return message;
-    }
 
-    public void setMessage(String message) {
-        this.message = message;
-        notifyPropertyChanged(BR.message);
-    }
 
     @Bindable
     public String[] getWifi_ssids() {

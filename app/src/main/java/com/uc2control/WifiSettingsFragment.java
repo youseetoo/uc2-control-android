@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.uc2control.databinding.FragmentWifiSettingsBinding;
-import com.uc2control.viewmodels.WifiSettingsModelView;
+import com.uc2control.viewmodels.MainViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class WifiSettingsFragment extends Fragment {
 
     private final String TAG = WifiSettingsFragment.class.getSimpleName();
-    private WifiSettingsModelView wifiSettingsModelView;
+    private MainViewModel wifiSettingsModelView;
     private FragmentWifiSettingsBinding wifiSettingsFragmentBinding;
     private ArrayAdapter<String> adapter;
 
@@ -33,15 +33,10 @@ public class WifiSettingsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        wifiSettingsModelView = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         // Inflate the layout for this fragment
-        wifiSettingsModelView = new ViewModelProvider(this).get(WifiSettingsModelView.class);
         wifiSettingsFragmentBinding =  DataBindingUtil.inflate(inflater, R.layout.fragment_wifi_settings, container, false);
         wifiSettingsFragmentBinding.setWifimodel(wifiSettingsModelView.getWifiSettingsModel());
         adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, wifiSettingsModelView.getWifiSettingsModel().getWifi_ssids());

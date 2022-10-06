@@ -3,8 +3,10 @@ package com.uc2control;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,36 +18,28 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.uc2control.adapter.MotorSettingsStepperAdapter;
 import com.uc2control.adapter.MotorTabPageAdapter;
 import com.uc2control.databinding.FragmentMotorSettingsBinding;
-import com.uc2control.viewmodels.MotorViewModel;
+import com.uc2control.viewmodels.MainViewModel;
 
 
 public class MotorSettingsFragment extends Fragment {
 
-    private MotorViewModel viewModel;
+    private MainViewModel viewModel;
     private FragmentMotorSettingsBinding settingsBinding;
     private MotorSettingsStepperAdapter stepperAdapter;
     private TabLayout tabLayout;
     private TabLayoutMediator tabLayoutMediator;
-
-    public void setViewModel(MotorViewModel viewModel)
-    {
-        this.viewModel = viewModel;
-    }
 
     public MotorSettingsFragment() {
         // Required empty public constructor
     }
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        viewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
         settingsBinding =  DataBindingUtil.inflate(inflater, R.layout.fragment_motor_settings, container, false);
         settingsBinding.setMotor(viewModel.getMotorModel());
         stepperAdapter = new MotorSettingsStepperAdapter(this);
@@ -76,8 +70,8 @@ public class MotorSettingsFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.getMotorModel().getMotorData();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
+
 }

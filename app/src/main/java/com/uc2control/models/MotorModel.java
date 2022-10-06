@@ -5,6 +5,7 @@ import com.api.RestController;
 import com.api.response.MotorGetResponse;
 import com.api.response.items.MotorSetPinsItem;
 import com.api.response.MotorSetRequest;
+import com.uc2control.BR;
 
 public class MotorModel {
     private Stepper stepperX;
@@ -13,14 +14,16 @@ public class MotorModel {
     private Stepper stepperA;
 
     private RestController restController;
+    private ConnectionModel connectionModel;
 
-    public MotorModel(RestController restController)
+    public MotorModel(RestController restController,ConnectionModel connectionModel)
     {
         this.restController = restController;
-        stepperX = new Stepper(1,restController);
-        stepperY = new Stepper(2,restController);
-        stepperZ = new Stepper(3,restController);
-        stepperA = new Stepper(0,restController);
+        this.connectionModel = connectionModel;
+        stepperX = new Stepper(1,restController,connectionModel);
+        stepperY = new Stepper(2,restController,connectionModel);
+        stepperZ = new Stepper(3,restController,connectionModel);
+        stepperA = new Stepper(0,restController,connectionModel);
     }
 
     public Stepper getStepperA() {
@@ -51,7 +54,10 @@ public class MotorModel {
             restController.getRestClient().setMotorPins(request, new ApiServiceCallback<Void>() {
                 @Override
                 public void onResponse(Void response) {
-
+                    stepperA.notifyPropertyChanged(BR.visibility);
+                    stepperX.notifyPropertyChanged(BR.visibility);
+                    stepperY.notifyPropertyChanged(BR.visibility);
+                    stepperZ.notifyPropertyChanged(BR.visibility);
                 }
             });
     }

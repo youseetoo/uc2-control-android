@@ -16,32 +16,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="URL" />
-
-            <EditText
-                android:id="@+id/editTextUrl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="@={wifimodel.url}" />
-
-            <Button
-                android:id="@+id/button_connect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Connect"
-                android:onClick="@{()->wifimodel.onConnectButtonClick()}"/>
-
-            <TextView
-                android:id="@+id/textView_connection_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{wifimodel.message}" />
-
             <Button
                 android:id="@+id/button_scanwifi"
                 android:layout_width="match_parent"
