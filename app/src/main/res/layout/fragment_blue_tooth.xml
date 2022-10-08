@@ -58,12 +58,26 @@
                 android:inputType="text"
                 android:text="@={btmodel.macAdress}" />
 
-            <Button
-                android:id="@+id/button_connectToBtDevice"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Connect to BT Device"
-                android:onClick="@{()->btmodel.connectToBTDevice()}"/>
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_connectToBtDevice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->btmodel.connectToBTDevice()}"
+                    android:text="Connect to BT Device" />
+
+                <Button
+                    android:id="@+id/button_removepaired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="@{()->btmodel.removePairedBtDevice()}"
+                    android:text="Remove Paired" />
+            </LinearLayout>
 
             <CheckBox
                 android:id="@+id/checkBox_pscontroller"

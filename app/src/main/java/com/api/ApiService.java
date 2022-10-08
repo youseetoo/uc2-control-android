@@ -48,6 +48,8 @@ public interface ApiService {
     
     @POST("/bt_connect")
     Call<Void>connectToBtDevice(@Body MacRequest mac);
+    @POST("/bt_paireddevices")
+    Call<Void>removePairedDevice(@Body MacRequest mac);
 
     @POST("/motor_set")
     Call<Void>setMotorPins(@Body MotorSetRequest motorSetRequest);

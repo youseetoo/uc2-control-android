@@ -1,6 +1,9 @@
 package com.api.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class MacRequest {
     public String mac;
-    public int psx;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer psx;
 }

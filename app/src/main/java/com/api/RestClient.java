@@ -83,6 +83,11 @@ public class RestClient {
         apiService.connectToBtDevice(mac).enqueue(new ApiServiceCallbackAdapter<>(callback));
     }
 
+    public void removePairedBtDevice(MacRequest mac, ApiServiceCallback<Void> callback)
+    {
+        apiService.removePairedDevice(mac).enqueue(new ApiServiceCallbackAdapter<>(callback));
+    }
+
     public void setMotorPins(MotorSetRequest motorSetRequest, ApiServiceCallback<Void> c)
     {
         apiService.setMotorPins(motorSetRequest).enqueue(new ApiServiceCallbackAdapter<>(c));

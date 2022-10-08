@@ -56,6 +56,22 @@ public class BlueToothModel extends BaseObservable
         }
     }
 
+    public void removePairedBtDevice()
+    {
+        if (!macAdress.isEmpty())
+        {
+            MacRequest mac = new MacRequest();
+            mac.mac = macAdress;
+            mac.psx = null;
+            restController.getRestClient().removePairedBtDevice(mac, new ApiServiceCallback<Void>() {
+                @Override
+                public void onResponse(Void response) {
+
+                }
+            });
+        }
+    }
+
     @Bindable
     public BtScanItem[] getBtScanItems() {
         return btScanItems;
