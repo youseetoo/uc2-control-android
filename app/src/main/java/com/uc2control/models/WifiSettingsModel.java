@@ -67,7 +67,7 @@ public class WifiSettingsModel extends BaseObservable {
     private ApiServiceCallback<String> wificonnectCallback = new ApiServiceCallback<String>() {
         @Override
         public void onResponse(String response) {
-            Log.d(WifiSettingsModel.class.getSimpleName(),response);
+
         }
     };
 

@@ -18,7 +18,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiService {
-    @GET("/")
+    @GET("/features_get")
     Call<String[]> getFeatures();
 
     @GET("/ledarr_get")

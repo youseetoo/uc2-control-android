@@ -62,10 +62,18 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
     public void onResume(@NonNull LifecycleOwner owner) {
         Log.d("MainViewModel", "onResume");
         DefaultLifecycleObserver.super.onResume(owner);
-        connectionModel.onConnectButtonClick();
-        connectionModel.resumeWebSocket();
-        ledModel.getLedSettings();
-        motorModel.getMotorData();
+        try {
+            connectionModel.onConnectButtonClick();
+            connectionModel.resumeWebSocket();
+            ledModel.getLedSettings();
+            motorModel.getMotorData();
+        }
+        catch (IllegalArgumentException ex)
+        {
+            connectionModel.setMessage(ex.getLocalizedMessage());
+            ex.printStackTrace();
+        }
+
     }
 
     @Override
