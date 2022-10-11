@@ -20,12 +20,12 @@ public class RestClient {
     public RestClient(String url)
     {
         this.url = url;
-        apiService = ApiServiceGenerator.createService(ApiService.class,url);
+        apiService = ApiServiceGenerator.createService(ApiService.class,"http://"+url+"/");
     }
 
     public Uc2WebSocket createWebSocket()
     {
-        return new Uc2WebSocket(ApiServiceGenerator.getSharedClient(),url+":81");
+        return new Uc2WebSocket(ApiServiceGenerator.getSharedClient(),"ws://"+url+":81");
     }
 
     public String[] getFeatures() {

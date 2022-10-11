@@ -1,6 +1,7 @@
 package com.uc2control.models;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ import okio.ByteString;
 
 public class ConnectionModel extends BaseObservable {
 
+    private final String TAG = ConnectionModel.class.getSimpleName();
     private final String key_url = "url";
 
     private boolean isConnected = false;
@@ -96,6 +98,10 @@ public class ConnectionModel extends BaseObservable {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void pauseWebSocket()
@@ -107,6 +113,7 @@ public class ConnectionModel extends BaseObservable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d(TAG, "pausewebsocket");
     }
 
     public void resumeWebSocket()
@@ -114,6 +121,7 @@ public class ConnectionModel extends BaseObservable {
         if (webSocket == null)
             return;
         webSocket.createNewWebSocket(webSocketListner);
+        Log.d(TAG, "resumewebsocket");
     }
 
     private final Uc2WebSocketListner webSocketListner = new Uc2WebSocketListner()
@@ -121,16 +129,19 @@ public class ConnectionModel extends BaseObservable {
         @Override
         public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
             super.onClosed(webSocket, code, reason);
+            Log.d(TAG, "onClosed " + reason);
         }
 
         @Override
         public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
             super.onClosing(webSocket, code, reason);
+            Log.d(TAG, "onCloseing " + reason);
         }
 
         @Override
         public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
             super.onFailure(webSocket, t, response);
+            //Log.d(TAG, "onFailure " + response.message());
         }
 
         @Override
@@ -146,6 +157,7 @@ public class ConnectionModel extends BaseObservable {
         @Override
         public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
             super.onOpen(webSocket, response);
+            Log.d(TAG, "onFailure " + response.message());
         }
     };
 }
