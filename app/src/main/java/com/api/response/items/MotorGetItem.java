@@ -6,4 +6,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class MotorGetItem {
     public int stepperid;
     public int position;
+    public boolean isActivated;
 }

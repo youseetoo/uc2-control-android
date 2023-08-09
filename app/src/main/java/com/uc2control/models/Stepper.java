@@ -17,6 +17,7 @@ public class Stepper extends BaseObservable {
     private final int speedRanges[] = {-4000, -2000,-1000,-500,-200,-100,-50,-20,-10,-5,-4,-3,-2,-1,0,1,2,3,4,5,10,20,50,100,200,500,1000,2000, 4000};
     private int speedPos = getDefaultPosition();
     private boolean stopMotorOnSeekbarRelease = false;
+    private boolean isActivated = false;
 
 
     String position = "0";
@@ -45,7 +46,23 @@ public class Stepper extends BaseObservable {
 
     public void setMotorGetItem(MotorGetItem m)
     {
+        setActivated(m.isActivated);
         notifyChange();
+    }
+
+    @Bindable
+    public boolean getActivated()
+    {
+        return  isActivated;
+    }
+
+    void setActivated(boolean activated)
+    {
+        if (this.isActivated != activated)
+        {
+            this.isActivated = activated;
+            notifyPropertyChanged(BR.activated);
+        }
     }
 
     public void setPosition(String position) {

@@ -69,16 +69,28 @@ public class ConnectionModel extends BaseObservable {
         public void onResponse(String[] response) {
             Log.i(TAG, Arrays.toString(response));
             setMessage("Connected");
-            isConnected = true;
+            setConnected(true);
         }
 
         @Override
         public void onFailure(Throwable cause) {
             ApiServiceCallback.super.onFailure(cause);
             setMessage("Failed To Connect");
-            isConnected = false;
+            setConnected(false);
         }
     };
+
+    @Bindable
+    public boolean getConnected()
+    {
+        return isConnected;
+    }
+
+    void setConnected(boolean connected)
+    {
+        this.isConnected = connected;
+        notifyPropertyChanged(BR.connected);
+    }
 
     public void setUrl(String url) {
         if (url == this.url)
@@ -118,6 +130,7 @@ public class ConnectionModel extends BaseObservable {
 
     public void pauseWebSocket()
     {
+        setConnected(false);
         if (webSocket == null)
             return;
         try {

@@ -9,14 +9,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.uc2control.BlueToothFragment;
 import com.uc2control.LedFragment;
-import com.uc2control.MotorFragment;
+import com.uc2control.MotorControlFragment;
 import com.uc2control.WifiSettingsFragment;
 
 public class MainTabPageAdapter extends FragmentStateAdapter {
 
     private LedFragment ledFragment;
     private BlueToothFragment blueToothFragment;
-    private MotorFragment motorFragment;
+    private MotorControlFragment motorFragment;
     private WifiSettingsFragment wifiSettingsFragment;
     public MainTabPageAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -37,7 +37,7 @@ public class MainTabPageAdapter extends FragmentStateAdapter {
     {
         ledFragment = new LedFragment();
         blueToothFragment = new BlueToothFragment();
-        motorFragment = new MotorFragment();
+        motorFragment = new MotorControlFragment();
         wifiSettingsFragment = new WifiSettingsFragment();
     }
 

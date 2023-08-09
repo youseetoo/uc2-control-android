@@ -15,6 +15,7 @@
     tools:context=".MainActivity" >
 
     <LinearLayout
+        setVisibilityToView="@{!connectionModel.connected}"
         android:id="@+id/connectholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +62,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_connection_state"
-        app:tabIndicatorAnimationDuration="0" />
+        app:tabIndicatorAnimationDuration="0"
+        setVisibilityToView="@{connectionModel.connected}"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
@@ -70,7 +72,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        setVisibilityToView="@{connectionModel.connected}"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
