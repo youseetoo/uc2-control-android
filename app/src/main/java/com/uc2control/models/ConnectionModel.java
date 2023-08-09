@@ -9,12 +9,17 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.api.ApiServiceCallback;
+import com.api.ApiServiceGenerator;
 import com.api.RestController;
 import com.api.ws.Uc2WebSocket;
 import com.api.ws.Uc2WebSocketListner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uc2control.BR;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -36,12 +41,18 @@ public class ConnectionModel extends BaseObservable {
 
     private Uc2WebSocket webSocket;
     ObjectMapper mapper = new ObjectMapper();
+    public WebSocketMotorDataEvent motorDataEvent;
+
+    interface WebSocketMotorDataEvent
+    {
+        void onMotorDataChanged(int id, int pos);
+    }
 
     public ConnectionModel(RestController restController,SharedPreferences sharedPreferences)
     {
         this.restController = restController;
         this.sharedPreferences = sharedPreferences;
-        setUrl(sharedPreferences.getString(key_url,"http://192.168.4.1"));
+        setUrl(sharedPreferences.getString(key_url,"192.168.4.1"));
     }
 
     public void onConnectButtonClick()
@@ -56,6 +67,7 @@ public class ConnectionModel extends BaseObservable {
     private ApiServiceCallback<String[]> getFeatureCallback = new ApiServiceCallback<String[]>() {
         @Override
         public void onResponse(String[] response) {
+            Log.i(TAG, Arrays.toString(response));
             setMessage("Connected");
             isConnected = true;
         }
@@ -141,12 +153,30 @@ public class ConnectionModel extends BaseObservable {
         @Override
         public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
             super.onFailure(webSocket, t, response);
-            //Log.d(TAG, "onFailure " + response.message());
+            Log.d(TAG, "onFailure " + response + "," + t);
         }
 
         @Override
         public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
             super.onMessage(webSocket, text);
+            try {
+                JSONObject response = new JSONObject(text);
+
+                if(response.has("steppers"))
+                {
+                    JSONArray stprs = response.getJSONArray("steppers");
+                    for(int i = 0; i< stprs.length();i++)
+                    {
+                        JSONObject stp = stprs.getJSONObject(i);
+                        int id = stp.getInt("stepperid");
+                        int pos = stp.getInt("position");
+                        if(motorDataEvent != null)
+                            motorDataEvent.onMotorDataChanged(id,pos);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -157,7 +187,7 @@ public class ConnectionModel extends BaseObservable {
         @Override
         public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
             super.onOpen(webSocket, response);
-            Log.d(TAG, "onFailure " + response.message());
+            Log.d(TAG, "onOpen " + response.message());
         }
     };
 }

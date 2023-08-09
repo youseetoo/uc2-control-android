@@ -25,7 +25,8 @@ public class Uc2WebSocket implements Closeable  {
 
         Request request = new Request.Builder().url(websocketUrl).build();
         webSocket = client.newWebSocket(request, listener);
-        isOpen = true;
+        if (webSocket != null)
+            isOpen = true;
     }
 
     @Override

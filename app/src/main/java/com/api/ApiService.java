@@ -5,11 +5,8 @@ import com.api.response.MotorGetResponse;
 import com.api.response.items.BtScanItem;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
-import com.api.response.LedSetRequest;
 import com.api.response.MacRequest;
-import com.api.response.MotorSetRequest;
 import com.api.response.WifiConnectRequest;
-import com.api.response.items.MotorGetItem;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,8 +24,6 @@ public interface ApiService {
     @POST("/ledarr_act")
     Call<String> ledAct(@Body LedArrRequest request);
 
-    @POST("/ledarr_set")
-    Call<String> ledSet(@Body LedSetRequest request);
 
     @GET("/wifi/scan")
     Call<String[]> getSsids();
@@ -51,12 +46,8 @@ public interface ApiService {
     @POST("/bt_paireddevices")
     Call<Void>removePairedDevice(@Body MacRequest mac);
 
-    @POST("/motor_set")
-    Call<Void>setMotorPins(@Body MotorSetRequest motorSetRequest);
-
     @GET("motor_get")
     Call<MotorGetResponse>getMotorData();
-
     @POST("motor_act")
     Call<Void>setMotorData(@Body MotorActRequest request);
 

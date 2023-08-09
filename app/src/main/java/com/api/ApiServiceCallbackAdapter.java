@@ -17,7 +17,9 @@ public class ApiServiceCallbackAdapter<T> implements Callback<T> {
     }
 
     public void onResponse(Call<T> call, Response<T> response) {
+        Log.i(ApiServiceCallbackAdapter.class.getSimpleName(), response.raw().toString());
         if (response.isSuccessful()) {
+
             callback.onResponse(response.body());
         } else {
             if (response.code() == 504) {

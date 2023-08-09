@@ -1,7 +1,9 @@
 package com.api.response.items;
 
-public class MotorGetItem extends MotorSetPinsItem {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class MotorGetItem {
+    public int stepperid;
     public int position;
-    public int speed;
-    public int speedmax;
 }

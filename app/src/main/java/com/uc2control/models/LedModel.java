@@ -1,7 +1,6 @@
 package com.uc2control.models;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
@@ -11,19 +10,7 @@ import com.api.enums.LedModes;
 import com.api.response.LedArrRequest;
 import com.api.response.LedArrResponse;
 import com.api.response.items.LedColorItem;
-import com.api.response.LedSetRequest;
-import com.api.ws.Uc2WebSocket;
-import com.api.ws.Uc2WebSocketListner;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uc2control.BR;
-
-import java.io.Closeable;
-import java.io.IOException;
-
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okio.ByteString;
 
 public class LedModel extends BaseObservable {
     private RestController restController;
@@ -46,12 +33,6 @@ public class LedModel extends BaseObservable {
         return ledcount;
     }
 
-    public void setLedcount(String ledcount) {
-        this.ledcount = ledcount;
-        if (this.ledcount == ledcount)
-            return;
-        notifyPropertyChanged(BR.ledcount);
-    }
 
     public void setLedsOn(boolean leds_turned_on) {
 
@@ -74,9 +55,9 @@ public class LedModel extends BaseObservable {
         request.led_array =new LedColorItem[1];
         request.led_array[0] = new LedColorItem();
         request.led_array[0].id = 0;
-        request.led_array[0].red = leds_turned_on ? red:0;
-        request.led_array[0].green = leds_turned_on ? green:0;
-        request.led_array[0].blue = leds_turned_on ? blue:0;
+        request.led_array[0].r = leds_turned_on ? red:0;
+        request.led_array[0].g = leds_turned_on ? green:0;
+        request.led_array[0].b = leds_turned_on ? blue:0;
         restController.getRestClient().setLedArr(request,setLedCallback);
     }
 
@@ -87,9 +68,9 @@ public class LedModel extends BaseObservable {
         request.led_array =new LedColorItem[1];
         request.led_array[0] = new LedColorItem();
         request.led_array[0].id = 0;
-        request.led_array[0].red = red;
-        request.led_array[0].green = green;
-        request.led_array[0].blue = blue;
+        request.led_array[0].r = red;
+        request.led_array[0].g = green;
+        request.led_array[0].b = blue;
         connectionModel.sendSocketMessage(request);
         //restController.getRestClient().setLedArr(request,setLedCallback);
     }
@@ -149,26 +130,6 @@ public class LedModel extends BaseObservable {
         this.ledPin = ledPin;
     }
 
-    @Bindable
-    public String getLedPin() {
-        return ledPin;
-    }
-
-    public void updatePins()
-    {
-        LedSetRequest r = new LedSetRequest();
-        r.ledArrNum = Integer.parseInt(ledcount);
-        r.ledArrPin = Integer.parseInt(ledPin);
-        restController.getRestClient().setLedConfig(r,setLedConfigCallback);
-    }
-
-    private ApiServiceCallback<String> setLedConfigCallback = new ApiServiceCallback<String>() {
-        @Override
-        public void onResponse(String response) {
-
-        }
-    };
-
     public void getLedSettings()
     {
         if (restController.getRestClient() == null)
@@ -179,12 +140,8 @@ public class LedModel extends BaseObservable {
     private ApiServiceCallback<LedArrResponse> getLedSettingsCallback = new ApiServiceCallback<LedArrResponse>() {
         @Override
         public void onResponse(LedArrResponse response) {
-            ledcount = ""+response.ledArrNum;
             leds_turned_on = response.is_on;
-            ledPin = ""+response.pin;
             notifyPropertyChanged(BR.ledsOn);
-            notifyPropertyChanged(BR.ledcount);
-            notifyPropertyChanged(BR.ledPin);
         }
     };
 

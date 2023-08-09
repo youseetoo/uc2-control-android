@@ -18,7 +18,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class ApiServiceGenerator {
     private static final OkHttpClient sharedClient;
-    private static  final Converter.Factory converterFactory = JacksonConverterFactory.create();
+    public static  final Converter.Factory converterFactory = JacksonConverterFactory.create();
 
     static {
         Dispatcher dispatcher = new Dispatcher();

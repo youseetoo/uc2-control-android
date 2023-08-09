@@ -66,6 +66,7 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
             connectionModel.onConnectButtonClick();
             connectionModel.resumeWebSocket();
             ledModel.getLedSettings();
+            //TODO request motor data from server
             motorModel.getMotorData();
         }
         catch (IllegalArgumentException ex)
