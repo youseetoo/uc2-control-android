@@ -7,21 +7,24 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.uc2control.ControlFragment;
+import com.uc2control.EspCameraFragment;
 import com.uc2control.MotorControlFragment;
 
-public class MotorTabPageAdapter extends FragmentStateAdapter {
+public class MainControlCamTab extends FragmentStateAdapter {
 
-    private MotorControlFragment controlFragment;
+    private EspCameraFragment espCameraFragment;
+    private ControlFragment controlFragment;
 
-    public MotorTabPageAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public MainControlCamTab(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 
-    public MotorTabPageAdapter(@NonNull Fragment fragment) {
+    public MainControlCamTab(@NonNull Fragment fragment) {
         super(fragment);
     }
 
-    public MotorTabPageAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public MainControlCamTab(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
@@ -30,9 +33,13 @@ public class MotorTabPageAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position)
         {
+            case 1:
+                if (espCameraFragment == null)
+                    espCameraFragment = new EspCameraFragment();
+                return espCameraFragment;
             default:
                 if (controlFragment == null)
-                    controlFragment = new MotorControlFragment();
+                    controlFragment = new ControlFragment();
                 return controlFragment;
         }
     }

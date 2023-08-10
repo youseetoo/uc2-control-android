@@ -22,10 +22,10 @@ public class RestClient {
         apiService = ApiServiceGenerator.createService(ApiService.class,"http://"+url+"/");
     }
 
-    public Uc2WebSocket createWebSocket()
+    public Uc2WebSocket createWebSocket(String url)
     {
         Log.i(TAG,"createWebSocket");
-        return new Uc2WebSocket(ApiServiceGenerator.getSharedClient(),"ws://"+url+"/ws");
+        return new Uc2WebSocket(ApiServiceGenerator.getSharedClient(),"ws://"+url);
     }
 
     public String[] getFeatures() {
@@ -101,5 +101,13 @@ public class RestClient {
     {
         Log.i(TAG,"setMotorData");
         apiService.setMotorData(request).enqueue(new ApiServiceCallbackAdapter<>(c));
+    }
+
+    //EspCamera
+
+    public void setControl(String type, String val,ApiServiceCallback<Void> c)
+    {
+        Log.i(TAG,"setMotorData type:"+ type + " Value:"+val);
+        apiService.setControl(type,val).enqueue(new ApiServiceCallbackAdapter<>(c));
     }
 }

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="espcamera"
+            type="com.uc2control.models.EspCameraModel" />
+    </data>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/monitor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_gravity="center_vertical|center_horizontal"
+            setImageToImageView="@{espcamera.frame}"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text="@={espcamera.espCamUrl}" />
+
+                <Button
+                    android:id="@+id/connect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:onClick="@{()->espcamera.onConnectButtonClick()}"
+                    android:text="Connect" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/recordButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:text="Start Recording"
+                    android:onClick="@{()->espcamera.startRecording()}"/>
+
+                <Button
+                    android:id="@+id/snapButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_weight="1"
+                    android:text="Snap Image"
+                    android:onClick="@{()->espcamera.snapImage()}"/>
+
+                <Button
+                    android:id="@+id/btnOpenGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_weight="1"
+                    android:text="Gallery" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lampValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Lamp Value 0" />
+
+            <SeekBar
+                android:id="@+id/lampSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="100"
+                android:progress="@={espcamera.lamp}" />
+
+            <TextView
+                android:id="@+id/focusValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Focus Value: 0" />
+
+            <SeekBar
+                android:id="@+id/focusSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={espcamera.focus}" />
+
+            <TextView
+                android:id="@+id/resolutionValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:text="Resolution: 0" />
+
+            <SeekBar
+                android:id="@+id/resolutionSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="13"
+                android:progress="@={espcamera.framesize}"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+</layout>

@@ -1,0 +1,4 @@
+[submodule "PhotoView"]
+	path = PhotoView
+	url = https://github.com/youseetoo/PhotoView.git
+	branch = master

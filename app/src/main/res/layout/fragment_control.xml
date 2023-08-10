@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+<data>
+    <variable
+        name="connectionModel"
+        type="com.uc2control.models.ConnectionModel" />
+</data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/mainlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        setVisibilityToView="@{!connectionModel.connected}"
+        android:id="@+id/connectholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:text="URL" />
+
+        <EditText
+            android:id="@+id/editTextUrl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:text="@={connectionModel.url}" />
+
+        <Button
+            android:id="@+id/button_connect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:onClick="@{()->connectionModel.onConnectButtonClick()}"
+            android:text="Connect" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView_connection_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/connectholder"
+        android:text="@{connectionModel.message}" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView_connection_state"
+        app:tabIndicatorAnimationDuration="0"
+        setVisibilityToView="@{connectionModel.connected}"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        setVisibilityToView="@{connectionModel.connected}"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.api.RestController;
+import com.uc2control.models.EspCameraModel;
 
 import javax.inject.Singleton;
 
@@ -31,5 +32,12 @@ public class RestModule {
     public static SharedPreferences sharedPreferences(@ApplicationContext Context context)
     {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Singleton
+    @Provides
+    public static EspCameraModel espCameraModel(SharedPreferences sharedPreferences,@ApplicationContext Context context)
+    {
+        return new EspCameraModel(sharedPreferences,context);
     }
 }

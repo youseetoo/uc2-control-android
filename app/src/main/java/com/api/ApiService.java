@@ -13,6 +13,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @GET("/features_get")
@@ -46,9 +48,12 @@ public interface ApiService {
     @POST("/bt_paireddevices")
     Call<Void>removePairedDevice(@Body MacRequest mac);
 
-    @GET("motor_get")
+    @GET("/motor_get")
     Call<MotorGetResponse>getMotorData();
-    @POST("motor_act")
+    @POST("/motor_act")
     Call<Void>setMotorData(@Body MotorActRequest request);
+
+    @GET("/control")
+    Call<Void> setControl(@Query("var") String t, @Query("val") String val);
 
 }

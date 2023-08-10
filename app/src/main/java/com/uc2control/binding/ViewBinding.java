@@ -1,7 +1,9 @@
 package com.uc2control.binding;
 
+import android.graphics.Bitmap;
 import android.view.View;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.databinding.BindingAdapter;
 
 public class ViewBinding
@@ -19,5 +21,12 @@ public class ViewBinding
             textView.setVisibility(View.VISIBLE);
         else
             textView.setVisibility(View.GONE);
+    }
+
+    @BindingAdapter("setImageToImageView")
+    public static void setImageToImageView(AppCompatImageView textView, Bitmap bitmap)
+    {
+        if (textView != null && bitmap != null)
+            textView.setImageBitmap(bitmap);
     }
 }

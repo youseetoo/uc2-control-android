@@ -9,7 +9,6 @@ import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
 import com.api.ApiServiceCallback;
-import com.api.ApiServiceGenerator;
 import com.api.RestController;
 import com.api.ws.Uc2WebSocket;
 import com.api.ws.Uc2WebSocketListner;
@@ -26,12 +25,13 @@ import java.util.Arrays;
 
 import okhttp3.Response;
 import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 import okio.ByteString;
 
 public class ConnectionModel extends BaseObservable {
 
     private final String TAG = ConnectionModel.class.getSimpleName();
-    private final String key_url = "url";
+    private final String key_url_control = "url_control";
 
     private boolean isConnected = false;
     private RestController restController;
@@ -39,8 +39,8 @@ public class ConnectionModel extends BaseObservable {
     private String url;
     private String message;
 
-    private Uc2WebSocket webSocket;
-    ObjectMapper mapper = new ObjectMapper();
+    private WebSocketController webSocketMotorShield;
+    private final ObjectMapper mapper = new ObjectMapper();
     public WebSocketMotorDataEvent motorDataEvent;
 
     interface WebSocketMotorDataEvent
@@ -52,7 +52,8 @@ public class ConnectionModel extends BaseObservable {
     {
         this.restController = restController;
         this.sharedPreferences = sharedPreferences;
-        setUrl(sharedPreferences.getString(key_url,"192.168.4.1"));
+        webSocketMotorShield = new WebSocketController(webSocketListner,restController,mapper);
+        setUrl(sharedPreferences.getString(key_url_control,"192.168.4.1"));
     }
 
     public void onConnectButtonClick()
@@ -60,7 +61,7 @@ public class ConnectionModel extends BaseObservable {
         restController.setUrl(url);
         restController.getRestClient().getFeaturesAsync(getFeatureCallback);
         if (restController.getRestClient() != null)
-            webSocket = restController.getRestClient().createWebSocket();
+            webSocketMotorShield.create(url+"/ws");
         setMessage("Connecting....");
     }
 
@@ -96,7 +97,7 @@ public class ConnectionModel extends BaseObservable {
         if (url == this.url)
             return;
         this.url = url;
-        sharedPreferences.edit().putString(key_url,url).apply();
+        sharedPreferences.edit().putString(key_url_control,url).apply();
         notifyPropertyChanged(BR.url);
     }
 
@@ -117,35 +118,19 @@ public class ConnectionModel extends BaseObservable {
 
     public <T> void sendSocketMessage(T request)
     {
-        try {
-            webSocket.getWebSocket().send(mapper.writeValueAsString(request));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        catch (NullPointerException e)
-        {
-            e.printStackTrace();
-        }
+        webSocketMotorShield.sendSocketMessage(request);
     }
 
     public void pauseWebSocket()
     {
         setConnected(false);
-        if (webSocket == null)
-            return;
-        try {
-            webSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        webSocketMotorShield.pauseWebSocket();
         Log.d(TAG, "pausewebsocket");
     }
 
     public void resumeWebSocket()
     {
-        if (webSocket == null)
-            return;
-        webSocket.createNewWebSocket(webSocketListner);
+        webSocketMotorShield.resumeWebSocket();
         Log.d(TAG, "resumewebsocket");
     }
 
