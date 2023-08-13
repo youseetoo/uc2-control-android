@@ -1,5 +1,7 @@
 package com.api.ws;
 
+import android.util.Log;
+
 import java.io.Closeable;
 import java.io.IOException;
 
@@ -27,6 +29,7 @@ public class Uc2WebSocket implements Closeable  {
         webSocket = client.newWebSocket(request, listener);
         if (webSocket != null)
             isOpen = true;
+        else Log.i(Uc2WebSocket.class.getSimpleName(), "websocket not open");
     }
 
     @Override

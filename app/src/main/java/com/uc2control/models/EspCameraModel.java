@@ -9,6 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,10 +30,16 @@ import com.api.ws.Uc2WebSocketListner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.uc2control.BR;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -43,11 +53,10 @@ import okio.ByteString;
 public class EspCameraModel extends BaseObservable {
     private final String TAG = EspCameraModel.class.getSimpleName();
     private RestController restController;
-    private int focusSlider = 0;
+    private int focusSlider = 100;
     private int framesize = 9;
     private int lamp =0;
     private boolean isConnected = false;
-    private WebSocketController webSocketController;
     private String url;
     private SharedPreferences sharedPreferences;
     private final String key_url_control = "url_espcam";
@@ -56,13 +65,15 @@ public class EspCameraModel extends BaseObservable {
     private Bitmap bitmap;
     byte[] frameBytes;
     private Context context;
+    private HandlerThread stream_thread;
+    private Handler stream_handler;
+    private final int ID_CONNECT = 200;
 
     public EspCameraModel(SharedPreferences preferences,Context context)
     {
         this.restController = new RestController();
         this.sharedPreferences = preferences;
         this.context = context;
-        webSocketController = new WebSocketController(webSocketListner,restController,mapper);
         setEspCamUrl(sharedPreferences.getString(key_url_control,"192.168.4.1"));
     }
 
@@ -72,6 +83,11 @@ public class EspCameraModel extends BaseObservable {
 
         }
     };
+
+    public  void resetFocusTouch()
+    {
+        setFocus(100);
+    }
 
     @Bindable
     public int getFocus()
@@ -84,7 +100,7 @@ public class EspCameraModel extends BaseObservable {
         if (value == focusSlider)
             return;
         focusSlider = value;
-        restController.getRestClient().setControl("focusSlider",String.valueOf(value),emtpycallback);
+        restController.getRestClient().setControl("focusSlider",String.valueOf(value-100),emtpycallback);
         notifyPropertyChanged(BR.focus);
     }
 
@@ -159,21 +175,31 @@ public class EspCameraModel extends BaseObservable {
         return url;
     }
 
-
-    public <T> void sendSocketMessage(T request)
+    private void createSocketListner()
     {
-        webSocketController.sendSocketMessage(request);
+        if (stream_thread == null) {
+            stream_thread = new HandlerThread("http");
+            stream_thread.start();
+            stream_handler = new HttpHandler(stream_thread.getLooper());
+            stream_handler.post(() -> VideoStream());
+        }
     }
 
     public void pauseWebSocket()
     {
-        webSocketController.pauseWebSocket();
+        setEspCameraConnected(false);
+        if (stream_thread != null) {
+            stream_handler = null;
+            stream_thread.quitSafely();
+            stream_thread = null;
+
+        }
         Log.d(TAG, "pausewebsocket");
     }
 
     public void resumeWebSocket()
     {
-        webSocketController.resumeWebSocket();
+        createSocketListner();
         Log.d(TAG, "resumewebsocket");
     }
 
@@ -181,8 +207,9 @@ public class EspCameraModel extends BaseObservable {
     {
         Log.i(TAG, "set url:" +url);
         restController.setUrl(url);
-        if (restController.getRestClient() != null)
-            webSocketController.create(url+":81");
+        if (restController.getRestClient() != null) {
+            resumeWebSocket();
+        }
     }
 
     public void startRecording() {
@@ -215,50 +242,6 @@ public class EspCameraModel extends BaseObservable {
         }).start();
     }
 
-
-    private final Uc2WebSocketListner webSocketListner = new Uc2WebSocketListner(){
-        @Override
-        public void onClosed(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
-            super.onClosed(webSocket, code, reason);
-            setEspCameraConnected(false);
-            Log.d(TAG, "onClosed " + reason);
-        }
-
-        @Override
-        public void onClosing(@NonNull WebSocket webSocket, int code, @NonNull String reason) {
-            super.onClosing(webSocket, code, reason);
-            Log.d(TAG, "onCloseing " + reason);
-        }
-
-        @Override
-        public void onFailure(@NonNull WebSocket webSocket, @NonNull Throwable t, @Nullable Response response) {
-            super.onFailure(webSocket, t, response);
-            setEspCameraConnected(false);
-            Log.d(TAG, "onFailure " + response + "," + t);
-        }
-
-        @Override
-        public void onMessage(@NonNull WebSocket webSocket, @NonNull String text) {
-            super.onMessage(webSocket, text);
-
-        }
-
-        @Override
-        public void onMessage(@NonNull WebSocket webSocket, @NonNull ByteString bytes) {
-            super.onMessage(webSocket, bytes);
-            if (bytes != null) {
-                frameBytes = bytes.toByteArray();
-                setFrame(BitmapFactory.decodeByteArray(frameBytes,0,bytes.size()));
-            }
-        }
-
-        @Override
-        public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
-            super.onOpen(webSocket, response);
-            setEspCameraConnected(true);
-            Log.d(TAG, "onOpen " + response.message());
-        }
-    };
 
     private void saveFrameToFile(byte[] frame) {
         // This assumes you have a folder to save the images in
@@ -303,5 +286,87 @@ public class EspCameraModel extends BaseObservable {
         return sharedPreferences.getString("ipAddress", "192.168.4.1"); // Returning an empty string if no value found
     }
 
+
+    private class HttpHandler extends Handler
+    {
+        public HttpHandler(Looper looper)
+        {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg)
+        {
+        }
+    }
+
+
+    private void VideoStream()
+    {
+        String stream_url = "http://" + url + ":81";
+        try
+        {
+            URL url = new URL(stream_url);
+            try
+            {
+                HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+                huc.setRequestMethod("GET");
+                huc.setConnectTimeout(1000 * 5);
+                huc.setReadTimeout(1000 * 5);
+                huc.setDoInput(true);
+                huc.connect();
+
+                if (huc.getResponseCode() == 200)
+                {
+                    setEspCameraConnected(true);
+                    InputStream in = huc.getInputStream();
+                    InputStreamReader isr = new InputStreamReader(in);
+                    BufferedReader br = new BufferedReader(isr);
+                    String data;
+
+                    while ((data = br.readLine()) != null && isConnected)
+                    {
+                        //look up for the content-type
+                        if (data.contains("Content-Type:"))
+                        {
+                            //after that read length line, we dont need the length but it increase the buffer position about 1 line
+                            data = br.readLine();
+                            //after that the binary data starts and we can pass directly the inputstream because its at same position as the bufferedReader
+                            setFrame(BitmapFactory.decodeStream(in));
+                        }
+                    }
+                    try
+                    {
+                        if (br != null)
+                        {
+                            br.close();
+                        }
+                        if(in != null)
+                        {
+                            in.close();
+                        }
+                        stream_handler.sendEmptyMessageDelayed(ID_CONNECT,3000);
+                    } catch (IOException e)
+                    {
+                        setEspCameraConnected(false);
+                        e.printStackTrace();
+                    }
+                }
+
+            } catch (IOException e)
+            {
+                setEspCameraConnected(false);
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e)
+        {
+            setEspCameraConnected(false);
+            e.printStackTrace();
+        } finally
+        {
+            setEspCameraConnected(false);
+        }
+
+    }
 
 }

@@ -24,7 +24,7 @@ public class RestClient {
 
     public Uc2WebSocket createWebSocket(String url)
     {
-        Log.i(TAG,"createWebSocket");
+        Log.i(TAG,"createWebSocket ws://"+url);
         return new Uc2WebSocket(ApiServiceGenerator.getSharedClient(),"ws://"+url);
     }
 
