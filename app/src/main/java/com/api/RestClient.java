@@ -11,6 +11,9 @@ import com.api.response.MacRequest;
 import com.api.response.WifiConnectRequest;
 import com.api.ws.Uc2WebSocket;
 
+import retrofit2.Call;
+import retrofit2.http.Query;
+
 public class RestClient {
 
     ApiService apiService;
@@ -19,7 +22,7 @@ public class RestClient {
     public RestClient(String url)
     {
         this.url = url;
-        apiService = ApiServiceGenerator.createService(ApiService.class,"http://"+url+"/");
+        apiService = ApiServiceGenerator.createService(ApiService.class,"http://"+url+":8001/");
     }
 
     public Uc2WebSocket createWebSocket(String url)
@@ -109,4 +112,21 @@ public class RestClient {
         Log.i(TAG,"setMotorData type:"+ type + " Value:"+val);
         apiService.setControl(type,val).enqueue(new ApiServiceCallbackAdapter<>(c));
     }
+
+    /*
+    IMSWITCH
+     */
+    public void movePositioner(int position, int speed, boolean isAbsolute, ApiServiceCallback<Void> c)
+    {
+        Log.i(TAG,"movePositioner");
+        apiService.movePositioner("ESP32Stage", "Z",position,isAbsolute,false,speed).enqueue(new ApiServiceCallbackAdapter<>(c));
+        
+    }
+
+    public void setLaserValue(String LaserName, int value, ApiServiceCallback<Void> c)
+    {
+        Log.i(TAG,"sedLaserValue");
+        apiService.setLaserValue(LaserName, value).enqueue(new ApiServiceCallbackAdapter<>(c));
+    }
 }
+

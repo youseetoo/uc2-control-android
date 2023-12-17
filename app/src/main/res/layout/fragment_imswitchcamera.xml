@@ -98,24 +98,24 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/lampValue"
+                android:id="@+id/ledValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:text="Lamp Value 0"
+                android:text="LED Value 0"
                 setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
 
             <SeekBar
-                android:id="@+id/lampSlider"
+                android:id="@+id/ledSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:max="100"
-                android:progress="@={imswitchcamera.lamp}"
+                android:progress="@={imswitchcamera.LED}"
                 setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
 
             <TextView
-                android:id="@+id/focusValue"
+                android:id="@+id/moveZValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
@@ -123,12 +123,66 @@
                 setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
 
             <SeekBar
-                android:id="@+id/focusSlider"
+                android:id="@+id/moveZSlider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:max="200"
                 android:progress="@={imswitchcamera.focus}"
+                android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/moveXValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Move X: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/moveXSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={imswitchcamera.moveX}"
+                android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/moveYValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Move Y: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/moveYSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={imswitchcamera.moveY}"
+                android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/moveAValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Move A: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/moveASlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={imswitchcamera.moveA}"
                 android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
                 setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
 
