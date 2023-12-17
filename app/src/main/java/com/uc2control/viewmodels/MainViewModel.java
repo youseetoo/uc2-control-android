@@ -13,6 +13,7 @@ import com.api.RestController;
 import com.uc2control.models.EspCameraModel;
 import com.uc2control.models.BlueToothModel;
 import com.uc2control.models.ConnectionModel;
+import com.uc2control.models.ImSwitchCameraModel;
 import com.uc2control.models.LedModel;
 import com.uc2control.models.MotorModel;
 import com.uc2control.models.WifiSettingsModel;
@@ -29,10 +30,11 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
     private BlueToothModel blueToothModel;
     private ConnectionModel connectionModel;
     private EspCameraModel espCameraModel;
+    private ImSwitchCameraModel imswitchCameraModel;
 
 
     @Inject
-    public MainViewModel(RestController restController, SharedPreferences sharedPreferences,EspCameraModel espCameraModel)
+    public MainViewModel(RestController restController, SharedPreferences sharedPreferences,EspCameraModel espCameraModel, ImSwitchCameraModel imswitchCameraModel)
     {
         connectionModel = new ConnectionModel(restController,sharedPreferences);
         wifiSettingsModel = new WifiSettingsModel(restController);
@@ -40,6 +42,7 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
         ledModel = new LedModel(restController,connectionModel);
         blueToothModel = new BlueToothModel(restController);
         this.espCameraModel =  espCameraModel;
+        this.imswitchCameraModel = imswitchCameraModel;
     }
 
     public WifiSettingsModel getWifiSettingsModel() {
@@ -59,6 +62,7 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
         return connectionModel;
     }
     public EspCameraModel getEspCameraModel(){return espCameraModel;}
+    public ImSwitchCameraModel getImswitchCameraModel(){return imswitchCameraModel;}
 
     @Override
     public void onResume(@NonNull LifecycleOwner owner) {
@@ -70,6 +74,7 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
             ledModel.getLedSettings();
             motorModel.getMotorData();
             espCameraModel.resumeWebSocket();
+            imswitchCameraModel.resumeWebSocket();
         }
         catch (IllegalArgumentException ex)
         {
@@ -84,6 +89,7 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
         DefaultLifecycleObserver.super.onPause(owner);
         connectionModel.pauseWebSocket();
         espCameraModel.pauseWebSocket();
+        imswitchCameraModel.pauseWebSocket();
         Log.d("MainViewModel", "onPause");
     }
 }

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.api.RestController;
 import com.uc2control.models.EspCameraModel;
+import com.uc2control.models.ImSwitchCameraModel;
 
 import javax.inject.Singleton;
 
@@ -40,4 +41,12 @@ public class RestModule {
     {
         return new EspCameraModel(sharedPreferences,context);
     }
+
+    @Singleton
+    @Provides
+    public static ImSwitchCameraModel ImSwitchCameraModel(SharedPreferences sharedPreferences,@ApplicationContext Context context)
+    {
+        return new ImSwitchCameraModel(sharedPreferences,context);
+    }
+
 }

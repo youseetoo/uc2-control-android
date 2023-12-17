@@ -104,7 +104,6 @@ public class RestClient {
     }
 
     //EspCamera
-
     public void setControl(String type, String val,ApiServiceCallback<Void> c)
     {
         Log.i(TAG,"setMotorData type:"+ type + " Value:"+val);

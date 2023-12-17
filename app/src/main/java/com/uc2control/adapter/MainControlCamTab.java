@@ -9,11 +9,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.uc2control.ControlFragment;
 import com.uc2control.EspCameraFragment;
+import com.uc2control.ImSwitchCameraFragment;
 import com.uc2control.MotorControlFragment;
 
 public class MainControlCamTab extends FragmentStateAdapter {
 
     private EspCameraFragment espCameraFragment;
+    private ImSwitchCameraFragment imSwitchCameraFragment;
     private ControlFragment controlFragment;
 
     public MainControlCamTab(@NonNull FragmentActivity fragmentActivity) {
@@ -37,6 +39,10 @@ public class MainControlCamTab extends FragmentStateAdapter {
                 if (espCameraFragment == null)
                     espCameraFragment = new EspCameraFragment();
                 return espCameraFragment;
+            case 2:
+                if (imSwitchCameraFragment == null)
+                    imSwitchCameraFragment = new ImSwitchCameraFragment();
+                return imSwitchCameraFragment;
             default:
                 if (controlFragment == null)
                     controlFragment = new ControlFragment();
@@ -46,6 +52,6 @@ public class MainControlCamTab extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }
