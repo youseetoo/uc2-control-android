@@ -69,7 +69,7 @@ public class MainViewModel extends ViewModel implements DefaultLifecycleObserver
         Log.d("MainViewModel", "onResume");
         DefaultLifecycleObserver.super.onResume(owner);
         try {
-            connectionModel.onConnectButtonClick();
+            // connectionModel.onConnectButtonClick(); // FIXME: Do not connect on startup ?
             connectionModel.resumeWebSocket();
             ledModel.getLedSettings();
             motorModel.getMotorData();

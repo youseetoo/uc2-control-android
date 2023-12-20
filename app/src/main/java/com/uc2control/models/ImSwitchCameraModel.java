@@ -63,7 +63,7 @@ public class ImSwitchCameraModel extends BaseObservable {
         this.restController = new RestController();
         this.sharedPreferences = preferences;
         this.context = context;
-        setImSwitchCameraUrl(sharedPreferences.getString(key_url_control, "192.168.2.191"));
+        setImSwitchCameraUrl(null);
     }
 
     private ApiServiceCallback<Void> emtpycallback = new ApiServiceCallback<Void>() {
@@ -137,7 +137,7 @@ public class ImSwitchCameraModel extends BaseObservable {
     }
 
     public void setFramesize(int value) {
-        if (value == framesize && restController.getRestClient() != null)
+        if (value == framesize && restController.getRestClient() != null || url==null)
             return;
         framesize = value;
         restController.getRestClient().setControl("framesize", String.valueOf(value), emtpycallback);
@@ -169,7 +169,7 @@ public class ImSwitchCameraModel extends BaseObservable {
     }
 
     public void setImSwitchCameraUrl(String url) {
-        if (url == this.url)
+        if (url == this.url || url == null)
             return;
         this.url = url;
         restController.setUrl(url);
@@ -221,7 +221,8 @@ public class ImSwitchCameraModel extends BaseObservable {
 
     public void onConnectButtonClick() {
         Log.i(TAG, "set url:" + url);
-        restController.setUrl(url);
+        setImSwitchCameraUrl(sharedPreferences.getString(key_url_control, "192.168.2.191"));
+        //restController.setUrl(url);
         if (restController.getRestClient() != null) {
             resumeWebSocket();
         }
@@ -313,6 +314,8 @@ public class ImSwitchCameraModel extends BaseObservable {
 
 
     private void VideoStream() {
+        if(url==null)
+            return;
         String streamUrl = "http://" + url + ":8001/RecordingController/video_feeder";
         HttpURLConnection huc = null;
         InputStream inputStream = null;
