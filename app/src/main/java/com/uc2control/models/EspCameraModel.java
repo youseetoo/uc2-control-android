@@ -74,7 +74,7 @@ public class EspCameraModel extends BaseObservable {
         this.restController = new RestController();
         this.sharedPreferences = preferences;
         this.context = context;
-        setEspCamUrl(sharedPreferences.getString(key_url_control,"192.168.4.1"));
+        setEspCamUrl(null); // Do not initialize it with the URL already - it'll try to connect right away
     }
 
     private ApiServiceCallback<Void> emtpycallback = new ApiServiceCallback<Void>() {
@@ -112,7 +112,7 @@ public class EspCameraModel extends BaseObservable {
 
     public void setFramesize(int value)
     {
-        if (value == framesize && restController.getRestClient() != null)
+        if (value == framesize && restController.getRestClient() != null || url==null)
             return;
         framesize = value;
         restController.getRestClient().setControl("framesize",String.valueOf(value),emtpycallback);
@@ -148,7 +148,7 @@ public class EspCameraModel extends BaseObservable {
     }
 
     public void setEspCamUrl(String url) {
-        if (url == this.url)
+        if (url == this.url || url == null)
             return;
         this.url = url;
         restController.setUrl(url);
@@ -206,7 +206,8 @@ public class EspCameraModel extends BaseObservable {
     public void onConnectButtonClick()
     {
         Log.i(TAG, "set url:" +url);
-        restController.setUrl(url);
+        //restController.setUrl(url);
+        setEspCamUrl(sharedPreferences.getString(key_url_control,"192.168.4.1"));
         if (restController.getRestClient() != null) {
             resumeWebSocket();
         }
@@ -303,6 +304,8 @@ public class EspCameraModel extends BaseObservable {
 
     private void VideoStream()
     {
+        if(url==null)
+            return;
         String stream_url = "http://" + url + ":81";
         try
         {
