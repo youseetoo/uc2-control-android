@@ -46,9 +46,10 @@
 
                 <EditText
                     android:id="@+id/ip"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:inputType="text"
                     android:maxLines="1"
