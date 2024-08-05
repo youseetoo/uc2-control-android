@@ -56,4 +56,19 @@ public interface ApiService {
     @GET("/control")
     Call<Void> setControl(@Query("var") String t, @Query("val") String val);
 
+    /* 
+     * ImSwitch fastapi
+     */
+
+     // positioner 
+     // format PositionerController/movePositioner?positionerName=ESP32Stage&axis=Z&dist=100&isAbsolute=false&isBlocking=false&speed=10000' 
+     
+    @GET("/PositionerController/movePositioner")
+    Call<Void> movePositioner(@Query("positionerName") String positionerName, @Query("axis") String axis, @Query("dist") int dist, @Query("isAbsolute") boolean isAbsolute, @Query("isBlocking") boolean isBlocking, @Query("speed") int speed);
+
+    // laser
+    // format http://localhost:8001/LaserController/setLaserValue?laserName=LED&value=1000'
+    @GET("/LaserController/setLaserValue")
+    Call<Void> setLaserValue(@Query("laserName") String laserName, @Query("value") int value);
+
 }

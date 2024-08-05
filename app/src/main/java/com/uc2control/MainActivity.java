@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         tab.setText("Cam");
                     break;
+                    case 2:
+                        tab.setText("IS");
+                    break;
                     default:
                         tab.setText("Control");
                     break;

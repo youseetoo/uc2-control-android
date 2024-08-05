@@ -81,7 +81,8 @@ public class EspCameraModel extends BaseObservable {
         this.restController = new RestController();
         this.sharedPreferences = preferences;
         this.context = context;
-        setEspCamUrl(sharedPreferences.getString(key_url_control, "192.168.4.1"));
+        setEspCamUrl(sharedPreferences.getString(key_url_control, "http://192.168.4.1"));
+        //setEspCamUrl(null); // Do not initialize it with the URL already - it'll try to connect right away
     }
 
     private ApiServiceCallback<Void> emtpycallback = new ApiServiceCallback<Void>() {
@@ -146,7 +147,7 @@ public class EspCameraModel extends BaseObservable {
     }
 
     public void setEspCamUrl(String url) {
-        if (url == this.url)
+        if (url == this.url || url == null)
             return;
         this.url = url;
         notifyPropertyChanged(BR.espCamUrl);

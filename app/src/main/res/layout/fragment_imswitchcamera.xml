@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="imswitchcamera"
+            type="com.uc2control.models.ImSwitchCameraModel" />
+    </data>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/monitor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_gravity="center_vertical|center_horizontal"
+            setImageToImageView="@{imswitchcamera.frame}"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                setVisibilityToView="@{!imswitchcamera.imSwitchCameraConnected}">
+
+                <EditText
+                    android:id="@+id/ip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="center"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text="@={imswitchcamera.imSwitchCameraUrl}" />
+
+                <Button
+                    android:id="@+id/connect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:onClick="@{()->imswitchcamera.onConnectButtonClick()}"
+                    android:text="Connect" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}">
+
+                <Button
+                    android:id="@+id/recordButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:text="Start Recording"
+                    android:onClick="@{()->imswitchcamera.startRecording()}"/>
+
+                <Button
+                    android:id="@+id/snapButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_weight="1"
+                    android:text="Snap Image"
+                    android:onClick="@{()->imswitchcamera.snapImage()}"/>
+
+                <Button
+                    android:id="@+id/btnOpenGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_weight="1"
+                    android:text="Gallery" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ledValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="LED Value 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/ledSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="100"
+                android:progress="@={imswitchcamera.LED}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/moveZValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Focus Value: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/moveZSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={imswitchcamera.focus}"
+                android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/moveXValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Move X: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/moveXSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={imswitchcamera.moveX}"
+                android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/moveYValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Move Y: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/moveYSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={imswitchcamera.moveY}"
+                android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/moveAValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="Move A: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/moveASlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="200"
+                android:progress="@={imswitchcamera.moveA}"
+                android:onStopTrackingTouch="@{()->imswitchcamera.resetFocusTouch()}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <TextView
+                android:id="@+id/resolutionValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center"
+                android:text="Resolution: 0"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+
+            <SeekBar
+                android:id="@+id/resolutionSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:max="13"
+                android:progress="@={imswitchcamera.framesize}"
+                setVisibilityToView="@{imswitchcamera.imSwitchCameraConnected}"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+</layout>
